@@ -247,3 +247,17 @@
   background: #ffffff !important;
   color: #111827 !important;
 }
+
+:global(.ant-input) {
+  color: #111827 !important;
+}
+
+:global(.ant-input-affix-wrapper) {
+  background-color: #ffffff !important;
+  border-color: #d1d5db !important;
+}
+
+:global(.ant-input-affix-wrapper input) {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+}
