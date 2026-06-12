@@ -5,16 +5,21 @@
 }
 
 .checkboxLabel {
-  color: #8ab0ad;
+  color: #4b5563;
   font-size: 14px;
 }
 
 .forgotLink {
-  color: #22a696 !important;
+  color: #1e40af !important;
   font-size: 14px !important;
-  transition: color 0.2s;
+  font-weight: 500 !important;
 }
 
 .forgotLink:hover {
-  color: #1a7a6e !important;
+  color: #1d3fa5 !important;
+}
+
+.checkboxLabel :global(.ant-checkbox-inner) {
+  background-color: #ffffff;
+  border-color: #d1d5db;
 }

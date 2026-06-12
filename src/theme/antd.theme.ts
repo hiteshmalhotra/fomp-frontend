@@ -2,7 +2,7 @@ import type { ThemeConfig } from 'antd'
 
 export const fompTheme: ThemeConfig = {
   token: {
-    colorPrimary: '#1A7A6E',
+    colorPrimary: '#1e40af',
     colorSuccess: '#27AE60',
     colorWarning: '#E67E22',
     colorError: '#C0392B',
@@ -56,19 +56,19 @@ export const fompTheme: ThemeConfig = {
       colorBorderSecondary: '#1E3040',
     },
     Input: {
-      colorBgContainer: '#162230',
-      colorBorder: '#1E3040',
-      activeBorderColor: '#1A7A6E',
-      hoverBorderColor: '#22A696',
+      colorBgContainer: '#ffffff',
+      colorBorder: '#d1d5db',
+      activeBorderColor: '#1e40af',
+      hoverBorderColor: '#1e40af',
     },
     Select: {
-      colorBgContainer: '#162230',
-      colorBorder: '#1E3040',
-      optionActiveBg: '#1E3040',
-      optionSelectedBg: '#1A7A6E',
+      colorBgContainer: '#ffffff',
+      colorBorder: '#d1d5db',
+      optionActiveBg: '#f3f4f6',
+      optionSelectedBg: '#eff6ff',
     },
     Button: {
-      colorPrimary: '#1A7A6E',
+      colorPrimary: '#1e40af',
       colorPrimaryHover: '#22A696',
       defaultBg: '#162230',
       defaultBorderColor: '#1E3040',

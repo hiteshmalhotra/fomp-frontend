@@ -1,50 +1,39 @@
-/* ─── Root ───────────────────────────────────────────────── */
 .root {
   min-height: 100vh;
-  background: #0d1b2a;
+  background: #f8fafc;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
 }
 
-/* ─── Background gradient ────────────────────────────────── */
 .bgLayer {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(26, 122, 110, 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(41, 128, 185, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 60% 80%, rgba(233, 168, 37, 0.06) 0%, transparent 40%);
+    radial-gradient(ellipse at 80% 50%, rgba(219, 234, 254, 0.6) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(219, 234, 254, 0.4) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
 
-/* ─── Top nav ────────────────────────────────────────────── */
 .topNav {
   height: 60px;
-  background: rgba(22, 34, 48, 0.95);
-  border-bottom: 1px solid #1e3040;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 48px;
   position: relative;
   z-index: 10;
-  backdrop-filter: blur(8px);
   flex-shrink: 0;
-}
-
-.navBrand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
 .logoBox {
   width: 32px;
   height: 32px;
-  background: linear-gradient(135deg, #1a7a6e, #22a696);
+  background: #1e40af;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -52,180 +41,130 @@
   flex-shrink: 0;
 }
 
-.logoIcon {
-  font-size: 16px;
-  line-height: 1;
-}
-
 .navTitle {
-  color: #ffffff !important;
+  color: #111827 !important;
   font-size: 15px !important;
   font-weight: 600 !important;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
   white-space: nowrap;
 }
 
-.navLinks {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
 .navLink {
-  color: #8ab0ad !important;
+  color: #4b5563 !important;
   font-size: 14px !important;
   transition: color 0.2s;
 }
 
 .navLink:hover {
-  color: #22a696 !important;
+  color: #1e40af !important;
 }
 
-
-
-/* ─── Center wrapper ─────────────────────────────────────── */
-.centerWrapper {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 24px;
-  position: relative;
-  z-index: 1;
-  overflow-y: auto;
-}
-
-/* ─── Card ───────────────────────────────────────────────── */
 .card {
   width: 100%;
-  max-width: 480px;
-  background: rgba(26, 46, 62, 0.85);
-  border: 1px solid #1e3040;
-  border-radius: 16px;
+  max-width: 560px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
   padding: 32px 40px;
-  backdrop-filter: blur(12px);
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  margin: auto;
-}
-
-/* ─── Card header ────────────────────────────────────────── */
-.cardHeader {
-  text-align: center;
-  margin-bottom: 8px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 4px 3px rgba(0, 0, 0, 0.05);
+  margin: 0 auto;
 }
 
 .cardLogoWrap {
-  width: 56px;
-  height: 56px;
-  background: linear-gradient(135deg, #1a7a6e, #22a696);
-  border-radius: 14px;
+  width: 48px;
+  height: 48px;
+  background: #1e40af;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px;
-  box-shadow: 0 4px 16px rgba(26, 122, 110, 0.35);
-}
-
-.cardLogoIcon {
-  font-size: 26px;
-  line-height: 1;
+  margin: 0 auto 8px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
 .cardTitle {
-  color: #ffffff !important;
+  color: #111827 !important;
   margin: 0 0 8px !important;
-  font-size: 24px !important;
+  font-size: 28px !important;
   font-weight: 700 !important;
+  letter-spacing: -0.5px !important;
 }
 
 .cardSubtitle {
-  color: #8ab0ad !important;
-  font-size: 14px !important;
+  color: #4b5563 !important;
+  font-size: 15px !important;
   line-height: 1.5 !important;
 }
 
 .divider {
-  border-color: #1e3040 !important;
-  margin: 24px 0 !important;
+  border-color: #e5e7eb !important;
+  margin: 20px 0 !important;
 }
 
-/* ─── Form shared ────────────────────────────────────────── */
 .label {
-  color: #8ab0ad;
-  font-size: 13px;
-  font-weight: 500;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .inputIcon {
-  color: #5a7a84;
+  color: #9ca3af;
 }
 
-/* ─── Submit button ──────────────────────────────────────── */
 .submitBtn {
   height: 48px !important;
   font-size: 15px !important;
   font-weight: 600 !important;
-  background: linear-gradient(135deg, #1a7a6e, #22a696) !important;
+  background: #1e40af !important;
   border: none !important;
   border-radius: 8px !important;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.3px;
   width: 100%;
-  transition: opacity 0.2s !important;
+  transition: background 0.2s !important;
 }
 
 .submitBtn:hover {
-  opacity: 0.9 !important;
+  background: #1d3fa5 !important;
 }
 
 .submitBtn:disabled {
-  opacity: 0.5 !important;
+  opacity: 0.6 !important;
   cursor: not-allowed !important;
 }
 
-/* ─── Bottom link row ────────────────────────────────────── */
 .bottomRow {
   text-align: center;
   margin-top: 8px;
 }
 
 .bottomText {
-  color: #5a7a84 !important;
+  color: #4b5563 !important;
   font-size: 14px !important;
 }
 
 .bottomLink {
-  color: #22a696 !important;
+  color: #1e40af !important;
   font-weight: 500 !important;
-  transition: color 0.2s !important;
 }
 
-.bottomLink:hover {
-  color: #1a7a6e !important;
-}
-
-/* ─── Back link ──────────────────────────────────────────── */
 .backLink {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  color: #8ab0ad !important;
+  color: #4b5563 !important;
   font-size: 14px !important;
   margin-top: 16px;
-  transition: color 0.2s;
 }
 
 .backLink:hover {
-  color: #22a696 !important;
+  color: #1e40af !important;
 }
 
-/* ─── Footer ─────────────────────────────────────────────── */
 .footer {
   padding: 20px 48px;
-  background: rgba(22, 34, 48, 0.8);
-  border-top: 1px solid #1e3040;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
   text-align: center;
   position: relative;
   z-index: 10;
@@ -242,22 +181,69 @@
 }
 
 .footerLink {
-  color: #5a7a84 !important;
+  color: #4b5563 !important;
   font-size: 13px !important;
-  transition: color 0.2s;
 }
 
 .footerLink:hover {
-  color: #8ab0ad !important;
+  color: #1e40af !important;
 }
 
 .footerDot {
-  color: #1e3040;
+  color: #d1d5db;
   font-size: 13px;
   user-select: none;
 }
 
 .footerCopy {
-  color: #5a7a84 !important;
+  color: #9ca3af !important;
   font-size: 12px !important;
+}
+
+/* keep these unchanged */
+.centerWrapper {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+  z-index: 1;
+  overflow-y: auto;
+}
+
+.navBrand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoIcon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.cardHeader {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.cardLogoIcon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.form {
+  width: 100%;
+}
+
+.input input {
+  background: #ffffff !important;
+  color: #111827 !important;
 }
