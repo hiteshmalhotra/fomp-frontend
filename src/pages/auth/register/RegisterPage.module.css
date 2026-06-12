@@ -1,0 +1,13 @@
+.nameRow {
+  display: flex;
+  gap: 16px;
+}
+
+.nameRow > * {
+  flex: 1;
+}
+
+.checkboxLabel {
+  color: #8ab0ad;
+  font-size: 14px;
+}
