@@ -10,14 +10,12 @@ import { getUserFromToken } from '@/utils/jwt'
 import { getDashboardRoute } from '@/utils/roleRedirect'
 import type { LoginFormValues } from '@/types/auth.types'
 
-// ─── Zod schema — matches backend constraints ─────────────────────────────────
 const loginSchema = z.object({
   email:      z.string().min(1, 'Email is required').email('Enter a valid email'),
   password:   z.string().min(1, 'Password is required'),
-  rememberMe: z.boolean().optional().default(false),
+  rememberMe: z.boolean(),
 })
 
-// ─── Hook ─────────────────────────────────────────────────────────────────────
 export const useLogin = () => {
   const [loading,   setLoading]   = useState(false)
   const [countdown, setCountdown] = useState(0)
@@ -27,7 +25,6 @@ export const useLogin = () => {
   const navigate    = useNavigate()
   const location    = useLocation()
 
-  // Redirect to the page the user was trying to visit before being sent to /login
   const from = (location.state as { from?: Location })?.from?.pathname ?? null
 
   const form = useForm<LoginFormValues>({
@@ -35,11 +32,9 @@ export const useLogin = () => {
     defaultValues: { email: '', password: '', rememberMe: false },
   })
 
-  // ─── Rate limit countdown timer ───────────────────────────────────────────
   const startCountdown = (seconds: number) => {
     setIsLimited(true)
     setCountdown(seconds)
-
     const interval = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
@@ -52,58 +47,51 @@ export const useLogin = () => {
     }, 1000)
   }
 
-  // ─── Submit ───────────────────────────────────────────────────────────────
   const onSubmit = async (values: LoginFormValues) => {
     if (isLimited) return
-
     setLoading(true)
+
     try {
       const response = await login({
         email:    values.email,
         password: values.password,
       })
 
-      // Decode JWT to extract user claims — no extra API call needed
       const user = getUserFromToken(response.token)
       if (!user) {
         message.error('Authentication failed. Please try again.')
         return
       }
 
-      // Persist to Zustand store
       setAuth(response.token, user)
-
-      // Redirect: back to original destination OR role dashboard
-      const destination = from ?? getDashboardRoute(user.role)
-      navigate(destination, { replace: true })
+      navigate(from ?? getDashboardRoute(user.role), { replace: true })
 
     } catch (err: any) {
+      const status       = err?.response?.status
       const errorCode    = err?.response?.data?.error
       const errorMessage = err?.response?.data?.message
-      const status       = err?.response?.status
 
-      if (status === 429) {
-        // Rate limited — start countdown from Retry-After header
-        const retryAfter = err?.retryAfter ?? 60
+      if (status === 429 || errorCode === 'RATE_LIMIT_EXCEEDED') {
+        // Read from axios interceptor first, fallback to response body
+        const retryAfter = err?.retryAfter
+          ?? err?.response?.data?.retryAfterSeconds
+          ?? 60
         startCountdown(retryAfter)
         return
       }
 
-      if (errorCode === 'INVALID_CREDENTIALS' || status === 401) {
-        // Set error on both fields — don't reveal which one is wrong
+      if (status === 401) {
+        // Don't reveal which field is wrong
         form.setError('email',    { message: '' })
-        form.setError('password', {
-          message: 'Invalid email or password',
-        })
+        form.setError('password', { message: 'Invalid email or password' })
         return
       }
 
-      if (errorCode === 'ACCOUNT_DISABLED') {
+      if (status === 403 || errorCode === 'ACCOUNT_DISABLED') {
         message.error('Your account has been deactivated. Contact your administrator.')
         return
       }
 
-      // Generic fallback
       message.error(errorMessage ?? 'Something went wrong. Please try again.')
 
     } finally {

@@ -56,7 +56,7 @@ const LoginPage = () => {
       {/* Form */}
       <Form
         layout="vertical"
-        onFinish={onSubmit}
+        onFinish={form.handleSubmit(onSubmit)}
         autoComplete="off"
       >
         {/* Email */}

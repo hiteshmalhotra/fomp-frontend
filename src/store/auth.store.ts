@@ -1,5 +1,7 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import type { User, UserRole } from '@/types/auth.types'
+import { isTokenExpired } from '@/utils/jwt'
 
 interface AuthState {
   token: string | null
@@ -10,13 +12,25 @@ interface AuthState {
   clearAuth: () => void
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  token: null,
-  user: null,
-  role: null,
-  isAuthenticated: false,
-  setAuth: (token, user) =>
-    set({ token, user, role: user.role, isAuthenticated: true }),
-  clearAuth: () =>
-    set({ token: null, user: null, role: null, isAuthenticated: false }),
-}))
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      token: null,
+      user: null,
+      role: null,
+      isAuthenticated: false,
+      setAuth: (token, user) =>
+        set({ token, user, role: user.role, isAuthenticated: true }),
+      clearAuth: () =>
+        set({ token: null, user: null, role: null, isAuthenticated: false }),
+    }),
+    {
+      name: 'fomp-auth',
+      onRehydrateStorage: () => (state) => {
+        if (state?.token && isTokenExpired(state.token)) {
+          state.clearAuth()
+        }
+      },
+    }
+  )
+)
