@@ -35,13 +35,19 @@ apiClient.interceptors.response.use(
     const errorCode = error.response?.data?.error
 
     if (status === 401) {
-      useAuthStore.getState().clearAuth()
-      window.location.href = '/login'
+      const url = error.config?.url || ''
+      if (!url.includes('/api/auth/')) {
+        useAuthStore.getState().clearAuth()
+        window.location.href = '/login'
+      }
       return Promise.reject(error)
     }
 
     if (status === 403) {
-      window.location.href = '/unauthorized'
+      const url = error.config?.url || ''
+      if (!url.includes('/api/auth/')) {
+        window.location.href = '/unauthorized'
+      }
       return Promise.reject(error)
     }
 

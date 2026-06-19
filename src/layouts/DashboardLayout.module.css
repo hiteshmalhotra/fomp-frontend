@@ -1,0 +1,17 @@
+.root {
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+.main {
+  transition: margin-left 0.2s;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  padding: 32px;
+  flex: 1;
+  min-height: 0;
+}

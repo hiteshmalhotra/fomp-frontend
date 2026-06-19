@@ -1,0 +1,24 @@
+.card {
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin-top: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.title {
+  margin: 0 !important;
+  color: #1e293b !important;
+}
+
+.addBtn {
+  background: #1e40af !important;
+  border-color: #1e40af !important;
+}

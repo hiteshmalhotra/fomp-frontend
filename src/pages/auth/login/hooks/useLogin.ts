@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { message } from 'antd'
+import { App } from 'antd'
 import { login } from '@/api/auth.api'
 import { useAuthStore } from '@/store/auth.store'
 import { getUserFromToken } from '@/utils/jwt'
@@ -17,6 +17,7 @@ const loginSchema = z.object({
 })
 
 export const useLogin = () => {
+  const { message } = App.useApp()
   const [loading,   setLoading]   = useState(false)
   const [countdown, setCountdown] = useState(0)
   const [isLimited, setIsLimited] = useState(false)
@@ -72,7 +73,6 @@ export const useLogin = () => {
       const errorMessage = err?.response?.data?.message
 
       if (status === 429 || errorCode === 'RATE_LIMIT_EXCEEDED') {
-        // Read from axios interceptor first, fallback to response body
         const retryAfter = err?.retryAfter
           ?? err?.response?.data?.retryAfterSeconds
           ?? 60
@@ -81,7 +81,6 @@ export const useLogin = () => {
       }
 
       if (status === 401) {
-        // Don't reveal which field is wrong
         form.setError('email',    { message: '' })
         form.setError('password', { message: 'Invalid email or password' })
         return
@@ -89,6 +88,11 @@ export const useLogin = () => {
 
       if (status === 403 || errorCode === 'ACCOUNT_DISABLED') {
         message.error('Your account has been deactivated. Contact your administrator.')
+        return
+      }
+
+      if (status === 503) {
+        message.error('Service is currently unavailable. Please try again later.')
         return
       }
 

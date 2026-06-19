@@ -1,0 +1,107 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 80px;
+  background: #ffffff !important;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.collapseBtn {
+  color: #1e293b !important;
+  font-size: 18px;
+}
+
+.collapseBtn:hover {
+  color: #1e40af !important;
+  background: #f1f5f9 !important;
+}
+
+.searchInput {
+  width: 288px;
+  background: #f1f5f9 !important;
+  border: none !important;
+  border-radius: 8px;
+}
+
+.searchInput input {
+  background: transparent !important;
+  color: #1e293b !important;
+}
+
+.searchInput input::placeholder {
+  color: #94a3b8 !important;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.iconBtn {
+  color: #1e293b !important;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconBtn:hover {
+  color: #1e40af !important;
+  background: #f1f5f9 !important;
+  border-radius: 9999px;
+}
+
+.userBlock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  border-left: 1px solid #e2e8f0;
+  padding-left: 24px;
+}
+
+.userBlock:hover {
+  background: #f8fafc;
+}
+
+.avatar {
+  background: #1e40af !important;
+}
+
+.userMeta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b !important;
+}
+
+.roleTag {
+  font-size: 10px !important;
+  padding: 0 4px !important;
+  line-height: 16px !important;
+  border: none !important;
+  color: #64748b !important;
+  background: transparent !important;
+}
