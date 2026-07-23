@@ -12,6 +12,12 @@ import type { AdminUser } from '@/types/admin.types'
 import { ROLE_TAG_COLORS } from '../utils/dashboard.constants'
 import styles from './UserManagementTable.module.css'
 import { useToggleUserStatus } from '../hooks/useToggleUserStatus'
+import CreateUserDrawer from './CreateUserDrawer'
+import { Modal as AntModal } from 'antd'
+import { ExclamationCircleFilled } from '@ant-design/icons'
+import ViewUserModal from './ViewUserModal'
+import EditRoleDrawer from './EditRoleDrawer'
+import { useDeleteUser } from '../hooks/useDeleteUser'
 
 const { Title } = Typography
 
@@ -22,6 +28,22 @@ interface Props {
 
 const UserManagementTable = ({ data, loading }: Props) => {
   const [searchTerm, setSearchTerm] = useState('')
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [viewUserId, setViewUserId] = useState<number | null>(null)
+  const [editUser, setEditUser] = useState<AdminUser | null>(null)
+  const deleteUser = useDeleteUser()
+
+  const handleDelete = (record: AdminUser) => {
+    AntModal.confirm({
+      title: 'Delete this user?',
+      icon: <ExclamationCircleFilled />,
+      content: `${record.fullName} (${record.email}) will be permanently removed. This cannot be undone.`,
+      okText: 'Delete',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      onOk: () => deleteUser.mutate(record.id),
+    })
+  }
   const toggleStatus = useToggleUserStatus()
 
   const filtered = (data ?? []).filter(
@@ -61,17 +83,32 @@ const UserManagementTable = ({ data, loading }: Props) => {
         onChange={() => toggleStatus.mutate(record.id)}/>),
     },
     {
-      title: 'Actions',
-      key: 'actions',
-      render: () => (
-        <Space size={4}>
-          <Button type="text" size="small" icon={<EyeOutlined />} />
-          <Button type="text" size="small" icon={<EditOutlined />} />
-          <Button type="text" size="small" icon={<DeleteOutlined />} danger />
-        </Space>
-      ),
-    },
-  ]
+    title: 'Actions',
+    key: 'actions',
+    render: (_, record) => (
+      <Space size={4}>
+        <Button
+          type="text"
+          size="small"
+          icon={<EyeOutlined />}
+          onClick={() => setViewUserId(record.id)}
+        />
+        <Button
+          type="text"
+          size="small"
+          icon={<EditOutlined />}
+          onClick={() => setEditUser(record)}
+        />
+        <Button
+          type="text"
+          size="small"
+          icon={<DeleteOutlined />}
+          danger
+          onClick={() => handleDelete(record)}
+        />
+      </Space>
+    ),
+},]
 
   return (
     <Card className={styles.card} bordered>
@@ -99,10 +136,14 @@ const UserManagementTable = ({ data, loading }: Props) => {
             <Select.Option value="active">Active</Select.Option>
             <Select.Option value="inactive">Inactive</Select.Option>
           </Select>
-          <Button type="primary" icon={<PlusOutlined />} className={styles.addBtn}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            className={styles.addBtn}
+            onClick={() => setDrawerOpen(true)}>
             Add User
-          </Button>
-        </Space>
+          </Button>        
+          </Space>
       </div>
 
       <Table
@@ -111,6 +152,18 @@ const UserManagementTable = ({ data, loading }: Props) => {
         rowKey="id"
         loading={loading}
         pagination={{ pageSize: 7 }}
+      />
+      <CreateUserDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+        <ViewUserModal
+        userId={viewUserId}
+        open={viewUserId !== null}
+        onClose={() => setViewUserId(null)}
+      />
+
+      <EditRoleDrawer
+        user={editUser}
+        open={editUser !== null}
+        onClose={() => setEditUser(null)}
       />
     </Card>
   )

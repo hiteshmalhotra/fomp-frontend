@@ -1,0 +1,21 @@
+.nameRow {
+  display: flex;
+  gap: 16px;
+}
+
+.nameRow > * {
+  flex: 1;
+}
+
+.label {
+  color: #1e293b;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}

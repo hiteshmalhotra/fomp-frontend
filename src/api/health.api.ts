@@ -1,12 +1,15 @@
 import axios from 'axios'
 import type { HealthResponse } from '@/types/health.types'
 
+// create a single endpoint for checking health
+const HEALTH_ENDPOINT = 'http://localhost:8080/actuator/health'
+
 const SERVICE_ENDPOINTS = [
-  { name: 'User Service', url: 'http://localhost:8081/actuator/health' },
-  { name: 'Store Service', url: 'http://localhost:8082/actuator/health' },
-  { name: 'Notification Service', url: 'http://localhost:8083/actuator/health' },
-  { name: 'Kitchen Service', url: 'http://localhost:8084/actuator/health' },
-  { name: 'Canteen Service', url: 'http://localhost:8085/actuator/health' },
+  { name: 'User Service', url: HEALTH_ENDPOINT },
+  { name: 'Store Service', url: HEALTH_ENDPOINT },
+  { name: 'Notification Service', url: HEALTH_ENDPOINT },
+  { name: 'Kitchen Service', url: HEALTH_ENDPOINT },
+  { name: 'Canteen Service', url: HEALTH_ENDPOINT },
 ]
 
 const checkOne = async (name: string, url: string) => {

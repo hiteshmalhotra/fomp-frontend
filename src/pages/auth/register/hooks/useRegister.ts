@@ -124,5 +124,5 @@ export const useRegister = () => {
     }
   }
 
-  return { form, loading, onSubmit }
+  return { form, loading, onSubmit: form.handleSubmit(onSubmit) }
 }
