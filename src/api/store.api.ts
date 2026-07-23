@@ -6,11 +6,16 @@ import type {
   ItemLookup,
   LedgerRow,
   LedgerSearchParams,
+  POCreateRequest,
+  POReceiptRequestPayload,
+  POSearchParams,
   PurchaseOrder,
+  PurchaseOrderDetail,
   StockRow,
   StockSearchParams,
   StoreDashboardSummary,
   StoreLocation,
+  Supplier,
   TransferChallan,
 } from '@/types/store.types'
 
@@ -77,6 +82,50 @@ export const storeApi = {
         params: { locationId, date },
         signal,
       })
+      .then((r) => r.data.data),
+
+  // ── Purchase Orders (STORE-006/007/008) ───────────────────────────────
+
+  searchPOs: (params: POSearchParams, signal?: AbortSignal) =>
+    apiClient
+      .get<ApiSuccess<PaginatedData<PurchaseOrder>>>('/api/store/po', {
+        params,
+        signal,
+      })
+      .then((r) => r.data.data),
+
+  getPO: (id: number, signal?: AbortSignal) =>
+    apiClient
+      .get<ApiSuccess<PurchaseOrderDetail>>(`/api/store/po/${id}`, { signal })
+      .then((r) => r.data.data),
+
+  createPO: (data: POCreateRequest) =>
+    apiClient
+      .post<ApiSuccess<PurchaseOrderDetail>>('/api/store/po', data)
+      .then((r) => r.data.data),
+
+  sendPO: (id: number) =>
+    apiClient
+      .put<ApiSuccess<PurchaseOrderDetail>>(`/api/store/po/${id}/send`)
+      .then((r) => r.data.data),
+
+  receivePO: (id: number, data: POReceiptRequestPayload) =>
+    apiClient
+      .put<ApiSuccess<PurchaseOrderDetail>>(`/api/store/po/${id}/receive`, data)
+      .then((r) => r.data.data),
+
+  cancelPO: (id: number, reason: string) =>
+    apiClient
+      .put<ApiSuccess<PurchaseOrderDetail>>(`/api/store/po/${id}/cancel`, null, {
+        params: { reason },
+      })
+      .then((r) => r.data.data),
+
+  // ── Suppliers ─────────────────────────────────────────────────────────
+
+  getSuppliers: (signal?: AbortSignal) =>
+    apiClient
+      .get<ApiSuccess<Supplier[]>>('/api/store/suppliers', { signal })
       .then((r) => r.data.data),
 
   // ── Reference data ────────────────────────────────────────────────────

@@ -22,6 +22,8 @@ export const ROUTE_PATHS = {
   storeDaybook: '/store/daybook',
   storeLedger: '/store/ledger',
   storePo: '/store/po',
+  storePoCreate: '/store/po/create',
+  // detail is dynamic: /store/po/:id — see storePoDetail()
   storeChallanPacked: '/store/challan/received/packed',
   storeChallanUnpacked: '/store/challan/received/unpacked',
 
@@ -47,3 +49,7 @@ const ALL_PATHS = new Set<string>(Object.values(ROUTE_PATHS))
 
 /** True if the exact path has a route definition. */
 export const isRoutablePath = (path: string): boolean => ALL_PATHS.has(path)
+
+/** Dynamic PO detail route (STORE-008). */
+export const storePoDetail = (id: number | string): string =>
+  `/store/po/${id}`

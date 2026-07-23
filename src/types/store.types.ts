@@ -80,7 +80,7 @@ export interface StoreDashboardSummary {
   totalStockValue: number
 }
 
-// POResponse (list-view fields used in S1)
+// POResponse (list-view fields)
 export interface PurchaseOrder {
   id: number
   poNumber: string
@@ -91,6 +91,59 @@ export interface PurchaseOrder {
   expectedDeliveryDate: string | null
   totalAmount: number | null
   createdAt: string
+}
+
+// SupplierResponse (dropdown subset)
+export interface Supplier {
+  id: number
+  name: string
+  supplierCode: string
+  active: boolean
+}
+
+// POLineItemResponse
+export interface POLineItem {
+  id: number
+  itemId: number
+  itemName: string
+  itemCode: string
+  unitName: string
+  orderedQuantity: number
+  receivedQuantity: number
+  pendingQuantity: number
+  unitPrice: number
+  actualUnitPrice: number | null
+  lineTotal: number
+  actualLineTotal: number | null
+  fullyReceived: boolean
+  remarks: string | null
+}
+
+// POResponse (full detail — STORE-008)
+export interface PurchaseOrderDetail {
+  id: number
+  poNumber: string
+  supplierId: number
+  supplierName: string
+  deliveryLocationId: number
+  deliveryLocationName: string
+  status: POStatus
+  poDate: string
+  expectedDeliveryDate: string | null
+  actualDeliveryDate: string | null
+  totalAmount: number | null
+  receivedAmount: number | null
+  autoSuggested: boolean
+  suggestionReason: string | null
+  billNumber: string | null
+  billDate: string | null
+  billAmount: number | null
+  notes: string | null
+  createdBy: string
+  approvedBy: string | null
+  receivedBy: string | null
+  createdAt: string
+  lineItems: POLineItem[]
 }
 
 // ChallanResponse (list-view fields used in S1)
@@ -201,6 +254,48 @@ export interface LedgerSearchParams {
   type?: MovementFilter
   page?: number
   size?: number
+}
+
+export type POStatusFilter = POStatus | 'ALL'
+
+export interface POSearchParams {
+  status?: POStatus // omit for ALL
+  supplierId?: number
+  fromDate?: string
+  toDate?: string
+  page?: number
+  size?: number
+}
+
+// PORequest / POLineItemRequest
+export interface POLineItemRequestPayload {
+  itemId: number
+  orderedQuantity: number
+  unitPrice: number
+  remarks?: string
+}
+
+export interface POCreateRequest {
+  supplierId: number
+  deliveryLocationId: number
+  expectedDeliveryDate?: string
+  notes?: string
+  lineItems: POLineItemRequestPayload[]
+}
+
+// POReceiptRequest / POLineItemReceiptRequest
+export interface POReceiptLinePayload {
+  lineItemId: number
+  receivedQuantity: number
+  actualUnitPrice: number
+  remarks?: string
+}
+
+export interface POReceiptRequestPayload {
+  billNumber: string
+  billDate: string
+  billAmount: number
+  receipts: POReceiptLinePayload[]
 }
 
 // ─── Ledger type labels ──────────────────────────────────────────────────────

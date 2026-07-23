@@ -16,6 +16,9 @@ import {
   StockViewPage,
   StockLedgerPage,
   DayBookPage,
+  PurchaseOrderListPage,
+  CreatePurchaseOrderPage,
+  PurchaseOrderDetailPage,
   DashboardPlaceholder,
   PageFallback,
   RootRedirect,
@@ -132,7 +135,23 @@ const router = createBrowserRouter([
         path: ROUTE_PATHS.storePo,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
-            {lazyPage(<DashboardPlaceholder role="PO Creation" />)}
+            {lazyPage(<PurchaseOrderListPage />)}
+          </RoleRoute>
+        ),
+      },
+      {
+        path: ROUTE_PATHS.storePoCreate,
+        element: (
+          <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
+            {lazyPage(<CreatePurchaseOrderPage />)}
+          </RoleRoute>
+        ),
+      },
+      {
+        path: '/store/po/:id',
+        element: (
+          <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
+            {lazyPage(<PurchaseOrderDetailPage />)}
           </RoleRoute>
         ),
       },

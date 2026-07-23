@@ -96,7 +96,7 @@ export const MENU_CONFIG: MenuItemConfig[] = [
       },
       {
         key: '/store/po',
-        label: 'PO Creation',
+        label: 'Purchase Orders',
         icon: 'po',
         roles: [ADMIN, STORE],
       },
