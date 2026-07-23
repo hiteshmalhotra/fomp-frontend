@@ -42,6 +42,14 @@ export interface ItemCategory {
   itemCount: number
 }
 
+// Minimal item shape for filter dropdowns (subset of ItemResponse).
+// The full Item type arrives with the Items master screen (S5).
+export interface ItemLookup {
+  id: number
+  name: string
+  itemCode: string
+}
+
 // StockResponse
 export interface StockRow {
   id: number
@@ -109,6 +117,73 @@ export const getStockStatus = (row: StockRow): StockStatus => {
   return 'OK'
 }
 
+// ─── Ledger (STORE-013) ──────────────────────────────────────────────────────
+export type LedgerType =
+  | 'OPENING_STOCK'
+  | 'PO_RECEIPT'
+  | 'TRANSFER_OUT'
+  | 'TRANSFER_IN'
+  | 'ADJUSTMENT_IN'
+  | 'ADJUSTMENT_OUT'
+  | 'RETURN_TO_STORE'
+  | 'PRODUCTION_CONSUMPTION'
+  | 'PRODUCTION_RECEIPT'
+
+export type MovementDirection = 'IN' | 'OUT'
+export type MovementFilter = MovementDirection | 'ALL'
+
+// LedgerResponse
+export interface LedgerRow {
+  id: number
+  itemId: number
+  itemName: string
+  itemCode: string
+  unitName: string
+  locationId: number
+  locationName: string
+  locationCode: string
+  type: LedgerType
+  movementDirection: MovementDirection
+  quantity: number
+  balanceAfter: number
+  unitPrice: number | null
+  totalValue: number | null
+  referenceType: string | null
+  referenceNumber: string | null
+  counterpartLocationName: string | null
+  transactionDate: string
+  remarks: string | null
+  createdBy: string
+  createdAt: string
+}
+
+// ─── Day Book (STORE-014) ────────────────────────────────────────────────────
+// DayBookLineResponse
+export interface DayBookLine {
+  itemId: number
+  itemName: string
+  itemCode: string
+  unitName: string
+  openingQty: number
+  poReceiptQty: number
+  transferInQty: number
+  returnQty: number
+  transferOutQty: number
+  productionConsumptionQty: number
+  productionReceiptQty: number
+  adjustmentInQty: number
+  adjustmentOutQty: number // includes wastage
+  closingQty: number
+}
+
+// DayBookResponse
+export interface DayBook {
+  date: string
+  locationId: number
+  locationName: string
+  lines: DayBookLine[]
+}
+
 // ─── Request params ──────────────────────────────────────────────────────────
 export interface StockSearchParams {
   locationId: number
@@ -116,4 +191,27 @@ export interface StockSearchParams {
   search?: string
   page?: number
   size?: number
+}
+
+export interface LedgerSearchParams {
+  locationId: number
+  itemId?: number
+  fromDate?: string
+  toDate?: string
+  type?: MovementFilter
+  page?: number
+  size?: number
+}
+
+// ─── Ledger type labels ──────────────────────────────────────────────────────
+export const LEDGER_TYPE_LABELS: Record<LedgerType, string> = {
+  OPENING_STOCK: 'Opening Stock',
+  PO_RECEIPT: 'PO Receipt',
+  TRANSFER_OUT: 'Transfer Out',
+  TRANSFER_IN: 'Transfer In',
+  ADJUSTMENT_IN: 'Adjustment In',
+  ADJUSTMENT_OUT: 'Adjustment Out',
+  RETURN_TO_STORE: 'Return to Store',
+  PRODUCTION_CONSUMPTION: 'Production Consumption',
+  PRODUCTION_RECEIPT: 'Production Receipt',
 }

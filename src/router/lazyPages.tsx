@@ -18,6 +18,8 @@ export const NotFoundPage       = lazy(() => import('@/pages/NotFound'))
 export const AdminDashboardPage = lazy(() => import('@/pages/admin/dashboard'))
 export const StoreDashboardPage = lazy(() => import('@/pages/store/dashboard'))
 export const StockViewPage      = lazy(() => import('@/pages/store/stock'))
+export const StockLedgerPage    = lazy(() => import('@/pages/store/ledger'))
+export const DayBookPage        = lazy(() => import('@/pages/store/daybook'))
 export const DashboardPlaceholder = lazy(() => import('@/pages/DashboardPlaceholder'))
 
 export const PageFallback = () => (

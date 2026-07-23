@@ -1,4 +1,9 @@
-import type { ChallanStatus, POStatus, StockStatus } from '@/types/store.types'
+import type {
+  ChallanStatus,
+  MovementDirection,
+  POStatus,
+  StockStatus,
+} from '@/types/store.types'
 
 // antd Tag preset colors per status — color is never the only indicator,
 // the status text always renders beside it.
@@ -29,6 +34,11 @@ export const STOCK_STATUS_COLORS: Record<StockStatus, string> = {
   OK: 'green',
   LOW: 'gold',
   CRITICAL: 'red',
+}
+
+export const MOVEMENT_COLORS: Record<MovementDirection, string> = {
+  IN: 'green',
+  OUT: 'volcano',
 }
 
 export const STATUS_LABELS: Record<string, string> = {

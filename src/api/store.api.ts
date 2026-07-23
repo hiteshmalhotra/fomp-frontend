@@ -1,7 +1,11 @@
 import apiClient from './client'
 import type { ApiSuccess, PaginatedData } from '@/types/common.types'
 import type {
+  DayBook,
   ItemCategory,
+  ItemLookup,
+  LedgerRow,
+  LedgerSearchParams,
   PurchaseOrder,
   StockRow,
   StockSearchParams,
@@ -55,6 +59,26 @@ export const storeApi = {
       })
       .then((r) => r.data.data),
 
+  // ── Stock Ledger (STORE-013) ──────────────────────────────────────────
+
+  searchLedger: (params: LedgerSearchParams, signal?: AbortSignal) =>
+    apiClient
+      .get<ApiSuccess<PaginatedData<LedgerRow>>>('/api/store/ledger', {
+        params,
+        signal,
+      })
+      .then((r) => r.data.data),
+
+  // ── Day Book (STORE-014) ──────────────────────────────────────────────
+
+  getDayBook: (locationId: number, date: string, signal?: AbortSignal) =>
+    apiClient
+      .get<ApiSuccess<DayBook>>('/api/store/ledger/daybook', {
+        params: { locationId, date },
+        signal,
+      })
+      .then((r) => r.data.data),
+
   // ── Reference data ────────────────────────────────────────────────────
 
   getLocations: (signal?: AbortSignal) =>
@@ -72,5 +96,11 @@ export const storeApi = {
   getCategories: (signal?: AbortSignal) =>
     apiClient
       .get<ApiSuccess<ItemCategory[]>>('/api/store/categories', { signal })
+      .then((r) => r.data.data),
+
+  // Active items — used to populate filter dropdowns
+  getItems: (signal?: AbortSignal) =>
+    apiClient
+      .get<ApiSuccess<ItemLookup[]>>('/api/store/items', { signal })
       .then((r) => r.data.data),
 }

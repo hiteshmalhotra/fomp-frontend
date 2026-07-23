@@ -14,6 +14,8 @@ import {
   AdminDashboardPage,
   StoreDashboardPage,
   StockViewPage,
+  StockLedgerPage,
+  DayBookPage,
   DashboardPlaceholder,
   PageFallback,
   RootRedirect,
@@ -114,7 +116,7 @@ const router = createBrowserRouter([
         path: ROUTE_PATHS.storeDaybook,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
-            {lazyPage(<DashboardPlaceholder role="Day Book" />)}
+            {lazyPage(<DayBookPage />)}
           </RoleRoute>
         ),
       },
@@ -122,7 +124,7 @@ const router = createBrowserRouter([
         path: ROUTE_PATHS.storeLedger,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
-            {lazyPage(<DashboardPlaceholder role="Store Ledger" />)}
+            {lazyPage(<StockLedgerPage />)}
           </RoleRoute>
         ),
       },
