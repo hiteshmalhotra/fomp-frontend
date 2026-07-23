@@ -4,6 +4,8 @@ import { adminApi } from '@/api/admin.api'
 import type { AdminUser } from '@/types/admin.types'
 import type { PaginatedData } from '@/types/common.types'
 
+const USERS_KEY = ['admin', 'users'] as const
+
 export const useToggleUserStatus = () => {
   const queryClient = useQueryClient()
   const { message } = App.useApp()
@@ -11,16 +13,17 @@ export const useToggleUserStatus = () => {
   return useMutation({
     mutationFn: (id: number) => adminApi.toggleStatus(id),
 
+    // Optimistic flip across every cached page/filter combination —
+    // the users key now carries params, so match by prefix.
     onMutate: async (id: number) => {
-      await queryClient.cancelQueries({ queryKey: ['admin', 'users'] })
+      await queryClient.cancelQueries({ queryKey: USERS_KEY })
 
-      const previous = queryClient.getQueryData<PaginatedData<AdminUser>>([
-        'admin',
-        'users',
-      ])
+      const previous = queryClient.getQueriesData<PaginatedData<AdminUser>>({
+        queryKey: USERS_KEY,
+      })
 
-      queryClient.setQueryData<PaginatedData<AdminUser>>(
-        ['admin', 'users'],
+      queryClient.setQueriesData<PaginatedData<AdminUser>>(
+        { queryKey: USERS_KEY },
         (old) =>
           old
             ? {
@@ -36,9 +39,9 @@ export const useToggleUserStatus = () => {
     },
 
     onError: (_err, _id, context) => {
-      if (context?.previous) {
-        queryClient.setQueryData(['admin', 'users'], context.previous)
-      }
+      context?.previous?.forEach(([key, data]) => {
+        queryClient.setQueryData(key, data)
+      })
       message.error('Failed to update status. Please try again.')
     },
 
@@ -47,7 +50,8 @@ export const useToggleUserStatus = () => {
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin', 'users'] })
+      queryClient.invalidateQueries({ queryKey: USERS_KEY })
+      queryClient.invalidateQueries({ queryKey: ['admin', 'user-counts'] })
     },
   })
 }

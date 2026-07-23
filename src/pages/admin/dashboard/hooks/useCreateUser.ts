@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { message } from 'antd'
+import { App } from 'antd'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { adminApi } from '@/api/admin.api'
+import { getApiError } from '@/utils/apiError'
 import {
   createUserSchema,
   type CreateUserFormValues,
@@ -10,6 +11,7 @@ import {
 
 export const useCreateUser = (onSuccessClose: () => void) => {
   const queryClient = useQueryClient()
+  const { message } = App.useApp()
 
   const form = useForm<CreateUserFormValues>({
     resolver: zodResolver(createUserSchema),
@@ -31,17 +33,15 @@ export const useCreateUser = (onSuccessClose: () => void) => {
       form.reset()
       onSuccessClose()
     },
-    onError: (err: any) => {
-      const errorCode = err?.response?.data?.error
-      if (errorCode === 'EMAIL_ALREADY_EXISTS') {
+    onError: (err: unknown) => {
+      const { code, message: apiMessage } = getApiError(err)
+      if (code === 'EMAIL_ALREADY_EXISTS') {
         form.setError('email', {
           message: 'An account with this email already exists.',
         })
         return
       }
-      message.error(
-        err?.response?.data?.message ?? 'Failed to create user. Try again.'
-      )
+      message.error(apiMessage ?? 'Failed to create user. Try again.')
     },
   })
 

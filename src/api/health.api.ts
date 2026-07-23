@@ -1,30 +1,28 @@
 import axios from 'axios'
-import type { HealthResponse } from '@/types/health.types'
+import type { HealthResponse, ServiceHealthResult } from '@/types/health.types'
 
-// create a single endpoint for checking health
-const HEALTH_ENDPOINT = 'http://localhost:8080/actuator/health'
+// The gateway only routes /api/** to services, so per-service actuator
+// health is not reachable from the browser. Until the gateway exposes an
+// aggregated health route, we report exactly what we can verify:
+// the API Gateway's own health — honestly labelled as such.
+const GATEWAY_HEALTH_URL = `${import.meta.env.VITE_API_BASE_URL}/actuator/health`
 
-const SERVICE_ENDPOINTS = [
-  { name: 'User Service', url: HEALTH_ENDPOINT },
-  { name: 'Store Service', url: HEALTH_ENDPOINT },
-  { name: 'Notification Service', url: HEALTH_ENDPOINT },
-  { name: 'Kitchen Service', url: HEALTH_ENDPOINT },
-  { name: 'Canteen Service', url: HEALTH_ENDPOINT },
-]
-
-const checkOne = async (name: string, url: string) => {
+const checkGateway = async (): Promise<ServiceHealthResult> => {
   try {
-    const res = await axios.get<HealthResponse>(url, { timeout: 3000 })
+    const res = await axios.get<HealthResponse>(GATEWAY_HEALTH_URL, {
+      timeout: 3000,
+    })
     return {
-      name,
-      status: res.data.status === 'UP' ? ('healthy' as const) : ('degraded' as const),
+      name: 'API Gateway',
+      status: res.data.status === 'UP' ? 'healthy' : 'degraded',
     }
   } catch {
-    return { name, status: 'down' as const }
+    return { name: 'API Gateway', status: 'down' }
   }
 }
 
 export const healthApi = {
-  checkAllServices: () =>
-    Promise.all(SERVICE_ENDPOINTS.map((s) => checkOne(s.name, s.url))),
+  checkAllServices: async (): Promise<ServiceHealthResult[]> => [
+    await checkGateway(),
+  ],
 }

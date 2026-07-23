@@ -15,6 +15,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
+  min-width: 0;
 }
 
 .collapseBtn {
@@ -29,6 +30,7 @@
 
 .searchInput {
   width: 288px;
+  max-width: 40vw;
   background: #f1f5f9 !important;
   border: none !important;
   border-radius: 8px;
@@ -40,20 +42,20 @@
 }
 
 .searchInput input::placeholder {
-  color: #94a3b8 !important;
+  color: #64748b !important;
 }
 
 .right {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
 }
 
 .iconBtn {
   color: #1e293b !important;
   font-size: 18px;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,16 +67,20 @@
   border-radius: 9999px;
 }
 
+/* Native <button> reset — the dropdown trigger must be keyboard-focusable */
 .userBlock {
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 4px 8px 4px 24px;
+  border: none;
+  background: transparent;
+  font: inherit;
+  text-align: left;
   border-radius: 8px;
   transition: background 0.2s;
   border-left: 1px solid #e2e8f0;
-  padding-left: 24px;
 }
 
 .userBlock:hover {
@@ -98,10 +104,38 @@
 }
 
 .roleTag {
-  font-size: 10px !important;
+  font-size: 11px !important;
   padding: 0 4px !important;
   line-height: 16px !important;
   border: none !important;
-  color: #64748b !important;
+  color: #475569 !important;
   background: transparent !important;
+}
+
+/* ─── Responsive ────────────────────────────────────────── */
+@media (max-width: 991px) {
+  .header {
+    padding: 0 16px;
+    height: 64px;
+  }
+}
+
+@media (max-width: 767px) {
+  .searchInput {
+    display: none;
+  }
+}
+
+@media (max-width: 575px) {
+  .userMeta {
+    display: none;
+  }
+
+  .userBlock {
+    padding-left: 12px;
+  }
+
+  .right {
+    gap: 8px;
+  }
 }

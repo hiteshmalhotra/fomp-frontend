@@ -15,3 +15,15 @@
   flex: 1;
   min-height: 0;
 }
+
+/* ─── Responsive ────────────────────────────────────────── */
+@media (max-width: 991px) {
+  .content {
+    padding: 16px;
+  }
+
+  /* Sidebar renders as a Drawer on mobile — no margin to animate */
+  .main {
+    transition: none;
+  }
+}

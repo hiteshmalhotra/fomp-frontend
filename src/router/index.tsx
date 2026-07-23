@@ -1,28 +1,60 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { Suspense } from 'react'
+import { createBrowserRouter } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute'
+import GuestRoute from './GuestRoute'
 import RoleRoute from './RoleRoute'
+import RouteError from './RouteError'
+import { ROUTE_PATHS } from './paths'
+import {
+  RegisterPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  UnauthorizedPage,
+  NotFoundPage,
+  AdminDashboardPage,
+  DashboardPlaceholder,
+  PageFallback,
+  RootRedirect,
+} from './lazyPages'
 
-// Layout
+// Layout — eager: shell for every protected page
 import DashboardLayout from '@/layouts/DashboardLayout'
 
-// Auth pages
+// Login — eager: it is the entry screen, no point lazy-loading it
 import LoginPage from '@/pages/auth/login'
-import RegisterPage from '@/pages/auth/register'
-import ForgotPasswordPage from '@/pages/auth/forgot-password'
-import ResetPasswordPage from '@/pages/auth/reset-password'
-import UnauthorizedPage from '@/pages/auth/unauthorized'
 
-// Placeholder — replaced screen by screen as we build
-import DashboardPlaceholder from '@/pages/DashboardPlaceholder'
-import AdminDashboardPage from '@/pages/admin/dashboard'
+const lazyPage = (element: React.ReactNode) => (
+  <Suspense fallback={<PageFallback />}>{element}</Suspense>
+)
 
 const router = createBrowserRouter([
-  // ─── Public ──────────────────────────────────────────────
-  { path: '/login',            element: <LoginPage /> },
-  { path: '/register',         element: <RegisterPage /> },
-  { path: '/forgot-password',  element: <ForgotPasswordPage /> },
-  { path: '/reset-password',   element: <ResetPasswordPage /> },
-  { path: '/unauthorized',     element: <UnauthorizedPage /> },
+  // ─── Public (guest-only) ─────────────────────────────────
+  {
+    errorElement: <RouteError />,
+    children: [
+      {
+        path: ROUTE_PATHS.login,
+        element: (
+          <GuestRoute>
+            <LoginPage />
+          </GuestRoute>
+        ),
+      },
+      {
+        path: ROUTE_PATHS.register,
+        element: <GuestRoute>{lazyPage(<RegisterPage />)}</GuestRoute>,
+      },
+      {
+        path: ROUTE_PATHS.forgotPassword,
+        element: <GuestRoute>{lazyPage(<ForgotPasswordPage />)}</GuestRoute>,
+      },
+      {
+        path: ROUTE_PATHS.resetPassword,
+        element: <GuestRoute>{lazyPage(<ResetPasswordPage />)}</GuestRoute>,
+      },
+      { path: ROUTE_PATHS.unauthorized, element: lazyPage(<UnauthorizedPage />) },
+    ],
+  },
 
   // ─── Protected — all inside DashboardLayout ──────────────
   {
@@ -31,166 +63,167 @@ const router = createBrowserRouter([
         <DashboardLayout />
       </PrivateRoute>
     ),
+    errorElement: <RouteError />,
     children: [
       // Admin routes
       {
-        path: '/admin/dashboard',
+        path: ROUTE_PATHS.adminDashboard,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN']}>
-            <AdminDashboardPage />
+            {lazyPage(<AdminDashboardPage />)}
           </RoleRoute>
         ),
       },
       {
-        path: '/admin/users',
+        path: ROUTE_PATHS.adminUsers,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN']}>
-            <DashboardPlaceholder role="User Management" />
+            {lazyPage(<DashboardPlaceholder role="User Management" />)}
           </RoleRoute>
         ),
       },
       {
-        path: '/admin/roles',
+        path: ROUTE_PATHS.adminRoles,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN']}>
-            <DashboardPlaceholder role="Roles & Permissions" />
+            {lazyPage(<DashboardPlaceholder role="Roles & Permissions" />)}
           </RoleRoute>
         ),
       },
 
       // Store routes
       {
-        path: '/store/dashboard',
+        path: ROUTE_PATHS.storeDashboard,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
-            <DashboardPlaceholder role="Store" />
+            {lazyPage(<DashboardPlaceholder role="Store" />)}
           </RoleRoute>
         ),
       },
       {
-        path: '/store/daybook',
+        path: ROUTE_PATHS.storeDaybook,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
-            <DashboardPlaceholder role="Day Book" />
+            {lazyPage(<DashboardPlaceholder role="Day Book" />)}
           </RoleRoute>
         ),
       },
       {
-        path: '/store/ledger',
+        path: ROUTE_PATHS.storeLedger,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
-            <DashboardPlaceholder role="Store Ledger" />
+            {lazyPage(<DashboardPlaceholder role="Store Ledger" />)}
           </RoleRoute>
         ),
       },
       {
-        path: '/store/po',
+        path: ROUTE_PATHS.storePo,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
-            <DashboardPlaceholder role="PO Creation" />
+            {lazyPage(<DashboardPlaceholder role="PO Creation" />)}
           </RoleRoute>
         ),
       },
       {
-        path: '/store/challan/received/packed',
+        path: ROUTE_PATHS.storeChallanPacked,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
-            <DashboardPlaceholder role="Packed Challans" />
+            {lazyPage(<DashboardPlaceholder role="Packed Challans" />)}
           </RoleRoute>
         ),
       },
       {
-        path: '/store/challan/received/unpacked',
+        path: ROUTE_PATHS.storeChallanUnpacked,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
-            <DashboardPlaceholder role="Unpacked Challans" />
+            {lazyPage(<DashboardPlaceholder role="Unpacked Challans" />)}
           </RoleRoute>
         ),
       },
 
       // Kitchen routes
       {
-        path: '/kitchen/dashboard',
+        path: ROUTE_PATHS.kitchenDashboard,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_KITCHEN_MANAGER']}>
-            <DashboardPlaceholder role="Kitchen" />
+            {lazyPage(<DashboardPlaceholder role="Kitchen" />)}
           </RoleRoute>
         ),
       },
 
       // Canteen routes
       {
-        path: '/canteen/dashboard',
+        path: ROUTE_PATHS.canteenDashboard,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_CANTEEN_MANAGER']}>
-            <DashboardPlaceholder role="Canteen" />
+            {lazyPage(<DashboardPlaceholder role="Canteen" />)}
           </RoleRoute>
         ),
       },
       {
-        path: '/canteen/challan/request',
+        path: ROUTE_PATHS.canteenChallanRequest,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_CANTEEN_MANAGER']}>
-            <DashboardPlaceholder role="Request Material" />
+            {lazyPage(<DashboardPlaceholder role="Request Material" />)}
           </RoleRoute>
         ),
       },
       {
-        path: '/canteen/challan/transfer',
+        path: ROUTE_PATHS.canteenChallanTransfer,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_CANTEEN_MANAGER']}>
-            <DashboardPlaceholder role="Transfer Material" />
+            {lazyPage(<DashboardPlaceholder role="Transfer Material" />)}
           </RoleRoute>
         ),
       },
       {
-        path: '/canteen/ledger',
+        path: ROUTE_PATHS.canteenLedger,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_CANTEEN_MANAGER']}>
-            <DashboardPlaceholder role="Canteen Ledger" />
+            {lazyPage(<DashboardPlaceholder role="Canteen Ledger" />)}
           </RoleRoute>
         ),
       },
 
       // Shared routes
       {
-        path: '/inventory',
-        element: <DashboardPlaceholder role="Inventory" />,
+        path: ROUTE_PATHS.inventory,
+        element: lazyPage(<DashboardPlaceholder role="Inventory" />),
       },
       {
-        path: '/reports',
-        element: <DashboardPlaceholder role="Reports" />,
+        path: ROUTE_PATHS.reports,
+        element: lazyPage(<DashboardPlaceholder role="Reports" />),
       },
       {
-        path: '/audit',
+        path: ROUTE_PATHS.audit,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN']}>
-            <DashboardPlaceholder role="Audit Logs" />
+            {lazyPage(<DashboardPlaceholder role="Audit Logs" />)}
           </RoleRoute>
         ),
       },
       {
-        path: '/settings',
+        path: ROUTE_PATHS.settings,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN']}>
-            <DashboardPlaceholder role="Settings" />
+            {lazyPage(<DashboardPlaceholder role="Settings" />)}
           </RoleRoute>
         ),
       },
       {
-        path: '/profile',
-        element: <DashboardPlaceholder role="Profile" />,
+        path: ROUTE_PATHS.profile,
+        element: lazyPage(<DashboardPlaceholder role="Profile" />),
       },
       {
-        path: '/notifications',
-        element: <DashboardPlaceholder role="Notifications" />,
+        path: ROUTE_PATHS.notifications,
+        element: lazyPage(<DashboardPlaceholder role="Notifications" />),
       },
     ],
   },
 
-  // ─── Fallback ────────────────────────────────────────────
-  { path: '/',  element: <Navigate to="/login" replace /> },
-  { path: '*',  element: <Navigate to="/login" replace /> },
+  // ─── Root + fallback ─────────────────────────────────────
+  { path: '/', element: <RootRedirect /> },
+  { path: '*', element: lazyPage(<NotFoundPage />), errorElement: <RouteError /> },
 ])
 
 export default router

@@ -1,52 +1,51 @@
 import { Card, Typography } from 'antd'
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons'
 import {
   TeamOutlined,
   ThunderboltOutlined,
   DatabaseOutlined,
   FileTextOutlined,
 } from '@ant-design/icons'
-import type { StatCardData } from '../type/dashboard.types'
+import type { StatCardData, StatTone } from '../types/dashboard.types'
 import styles from './StatCard.module.css'
 
 const { Text, Title } = Typography
 
-const ICON_MAP: Record<string, React.ReactNode> = {
+const ICON_MAP: Record<StatCardData['icon'], React.ReactNode> = {
   users: <TeamOutlined />,
   activity: <ThunderboltOutlined />,
   server: <DatabaseOutlined />,
   clipboard: <FileTextOutlined />,
 }
 
+// Semantic tone → presentation. Data never carries raw colors.
+const TONE_BG: Record<StatTone, string> = {
+  blue: '#dbeafe',
+  green: '#dcfce7',
+  amber: '#fef3c7',
+}
+
 interface Props {
   data: StatCardData
 }
 
-const StatCard = ({ data }: Props) => {
-  const isUp = data.trend === 'up'
-
-  return (
-    <Card className={styles.card} bordered>
-      <div className={styles.topRow}>
-        <div
-          className={styles.iconWrap}
-          style={{ background: data.iconBg }}
-        >
-          {ICON_MAP[data.icon]}
-        </div>
-        <span className={isUp ? styles.trendUp : styles.trendDown}>
-          {isUp ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-        </span>
+const StatCard = ({ data }: Props) => (
+  <Card className={styles.card} bordered>
+    <div className={styles.topRow}>
+      <div
+        className={styles.iconWrap}
+        style={{ background: TONE_BG[data.tone] }}
+        aria-hidden="true"
+      >
+        {ICON_MAP[data.icon]}
       </div>
-      <Text className={styles.label}>{data.label}</Text>
-      <Title level={3} className={styles.value}>
-        {data.value}
-      </Title>
-      <Text className={isUp ? styles.changeUp : styles.changeDown}>
-        {data.change}
-      </Text>
-    </Card>
-  )
-}
+    </div>
+    <Text className={styles.label}>{data.label}</Text>
+    <Title level={3} className={styles.value}>
+      {typeof data.value === 'number'
+        ? data.value.toLocaleString()
+        : data.value}
+    </Title>
+  </Card>
+)
 
 export default StatCard

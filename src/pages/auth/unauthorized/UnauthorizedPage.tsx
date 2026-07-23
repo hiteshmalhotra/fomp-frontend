@@ -2,8 +2,10 @@ import { Result, Button, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/auth.store'
 import { ROLE_HOME_ROUTES } from '@/utils/constants'
+import { usePageTitle } from '@/hooks/usePageTitle'
 
 const UnauthorizedPage = () => {
+  usePageTitle('Access Denied')
   const navigate = useNavigate()
   const { role, clearAuth } = useAuthStore()
 
@@ -24,7 +26,7 @@ const UnauthorizedPage = () => {
     <div
       style={{
         minHeight: '100vh',
-        background: '#0D1B2A',
+        background: '#f8fafc',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -32,24 +34,11 @@ const UnauthorizedPage = () => {
     >
       <Result
         status="403"
-        title={
-          <span style={{ color: '#FFFFFF' }}>Access Denied</span>
-        }
-        subTitle={
-          <span style={{ color: '#8AB0AD' }}>
-            You do not have permission to view this page.
-          </span>
-        }
+        title="Access Denied"
+        subTitle="You do not have permission to view this page. If you believe this is a mistake, contact your administrator."
         extra={
           <Space>
-            <Button
-              type="primary"
-              onClick={handleGoHome}
-              style={{
-                background: '#1A7A6E',
-                borderColor: '#1A7A6E',
-              }}
-            >
+            <Button type="primary" onClick={handleGoHome}>
               Go to My Dashboard
             </Button>
             <Button danger onClick={handleLogout}>

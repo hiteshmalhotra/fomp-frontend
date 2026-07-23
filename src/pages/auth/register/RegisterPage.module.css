@@ -7,7 +7,9 @@
   flex: 1;
 }
 
-.checkboxLabel {
-  color: #8ab0ad;
-  font-size: 14px;
+@media (max-width: 575px) {
+  .nameRow {
+    flex-direction: column;
+    gap: 0;
+  }
 }

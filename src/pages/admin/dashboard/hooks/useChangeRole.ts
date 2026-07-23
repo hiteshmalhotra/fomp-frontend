@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { App } from 'antd'
 import { adminApi } from '@/api/admin.api'
+import { getApiError } from '@/utils/apiError'
 import type { UserRole } from '@/types/auth.types'
 
 export const useChangeRole = (onSuccessClose: () => void) => {
@@ -15,9 +16,9 @@ export const useChangeRole = (onSuccessClose: () => void) => {
       queryClient.invalidateQueries({ queryKey: ['admin', 'users'] })
       onSuccessClose()
     },
-    onError: (err: any) => {
+    onError: (err: unknown) => {
       message.error(
-        err?.response?.data?.message ?? 'Failed to update role. Try again.'
+        getApiError(err).message ?? 'Failed to update role. Try again.'
       )
     },
   })

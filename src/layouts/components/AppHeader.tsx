@@ -1,9 +1,8 @@
-import { Layout, Input, Badge, Button, Dropdown, Avatar, Typography, Tag } from 'antd'
+import { Layout, Input, Button, Dropdown, Avatar, Typography, Tag } from 'antd'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   BellOutlined,
-  QuestionCircleOutlined,
   UserOutlined,
   LogoutOutlined,
   SearchOutlined,
@@ -62,33 +61,32 @@ const AppHeader = ({ collapsed, onToggle }: Props) => {
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           onClick={onToggle}
           className={styles.collapseBtn}
+          aria-label={collapsed ? 'Open navigation menu' : 'Collapse navigation menu'}
         />
         <Input
           placeholder="Search anything..."
-          prefix={<SearchOutlined style={{ color: '#5A7A84' }} />}
+          prefix={<SearchOutlined style={{ color: '#64748b' }} aria-hidden="true" />}
           className={styles.searchInput}
           allowClear
+          aria-label="Search"
         />
       </div>
 
       <div className={styles.right}>
-        <Badge count={8} size="small">
-          <Button
-            type="text"
-            icon={<BellOutlined />}
-            className={styles.iconBtn}
-            onClick={() => navigate('/notifications')}
-          />
-        </Badge>
-
         <Button
           type="text"
-          icon={<QuestionCircleOutlined />}
+          icon={<BellOutlined />}
           className={styles.iconBtn}
+          onClick={() => navigate('/notifications')}
+          aria-label="Notifications"
         />
 
         <Dropdown menu={{ items: userMenuItems }} trigger={['click']}>
-          <div className={styles.userBlock}>
+          <button
+            type="button"
+            className={styles.userBlock}
+            aria-label={`Account menu for ${user?.firstName ?? 'user'} ${user?.lastName ?? ''}`}
+          >
             <Avatar
               size={34}
               icon={<UserOutlined />}
@@ -105,7 +103,7 @@ const AppHeader = ({ collapsed, onToggle }: Props) => {
                 {getRoleLabel(role)}
               </Tag>
             </div>
-          </div>
+          </button>
         </Dropdown>
       </div>
     </Header>

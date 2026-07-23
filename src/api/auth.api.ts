@@ -11,10 +11,10 @@ import type {
 // Handles both:
 //   Wrapped:   { success: true, data: { token, ... }, message: "..." }
 //   Unwrapped: { token, ... }  ← fallback during backend transition
-const unwrap = <T>(response: { data: any }): T => {
+const unwrap = <T>(response: { data: unknown }): T => {
   const body = response.data
   if (body && typeof body === 'object' && 'success' in body && 'data' in body) {
-    return body.data as T
+    return (body as { data: T }).data
   }
   return body as T
 }

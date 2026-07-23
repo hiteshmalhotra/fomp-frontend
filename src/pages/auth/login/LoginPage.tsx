@@ -6,15 +6,12 @@ import {
   Typography,
   Divider,
 } from 'antd'
-import {
-  MailOutlined,
-  LockOutlined,
-  EyeInvisibleOutlined,
-  EyeTwoTone,
-} from '@ant-design/icons'
+import { MailOutlined, LockOutlined } from '@ant-design/icons'
 import { Controller } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import AuthLayout from '@/pages/auth/_shared/AuthLayout'
+import Logo from '@/components/common/Logo'
+import { usePageTitle } from '@/hooks/usePageTitle'
 import { useLogin } from './hooks/useLogin'
 import shared from '@/pages/auth/_shared/auth.module.css'
 import styles from './LoginPage.module.css'
@@ -22,6 +19,7 @@ import styles from './LoginPage.module.css'
 const { Title, Text } = Typography
 
 const LoginPage = () => {
+  usePageTitle('Sign In')
   const { form, loading, countdown, isLimited, onSubmit } = useLogin()
   const { control, formState: { errors } } = form
 
@@ -41,7 +39,7 @@ const LoginPage = () => {
       {/* Header */}
       <div className={shared.cardHeader}>
         <div className={shared.cardLogoWrap}>
-          <span className={shared.cardLogoIcon}>🍽</span>
+          <Logo size={48} />
         </div>
         <Title level={2} className={shared.cardTitle}>
           Welcome Back
@@ -98,13 +96,6 @@ const LoginPage = () => {
                 placeholder="Enter your password"
                 size="large"
                 autoComplete="current-password"
-                iconRender={(visible) =>
-                  visible ? (
-                    <EyeTwoTone twoToneColor="#1A7A6E" />
-                  ) : (
-                    <EyeInvisibleOutlined style={{ color: '#5A7A84' }} />
-                  )
-                }
               />
             )}
           />

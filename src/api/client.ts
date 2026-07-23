@@ -37,19 +37,16 @@ apiClient.interceptors.response.use(
     if (status === 401) {
       const url = error.config?.url || ''
       if (!url.includes('/api/auth/')) {
+        // Session is dead — clear and hard-redirect to login.
         useAuthStore.getState().clearAuth()
         window.location.href = '/login'
       }
       return Promise.reject(error)
     }
 
-    if (status === 403) {
-      const url = error.config?.url || ''
-      if (!url.includes('/api/auth/')) {
-        window.location.href = '/unauthorized'
-      }
-      return Promise.reject(error)
-    }
+    // 403: do NOT redirect globally. A single forbidden background call
+    // must not hijack navigation — page-level guards (RoleRoute) and
+    // per-query error states handle authorization UX.
 
     if (status === 429) {
       const retryAfter = error.response?.headers?.['retry-after']
@@ -57,7 +54,7 @@ apiClient.interceptors.response.use(
     }
 
     const correlationId = error.response?.headers?.['x-correlation-id']
-    if (correlationId) {
+    if (correlationId && import.meta.env.DEV) {
       console.error(`[FOMP] Correlation ID: ${correlationId} | Code: ${errorCode}`)
     }
 

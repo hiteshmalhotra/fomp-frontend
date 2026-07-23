@@ -8,6 +8,7 @@ import { register } from '@/api/auth.api'
 import { useAuthStore } from '@/store/auth.store'
 import { getUserFromToken } from '@/utils/jwt'
 import { getDashboardRoute } from '@/utils/roleRedirect'
+import { getApiError } from '@/utils/apiError'
 import type { RegisterFormValues } from '@/types/auth.types'
 
 // ─── Zod schema — matches backend constraints exactly ─────────────────────────
@@ -88,10 +89,9 @@ export const useRegister = () => {
       // New users always get ROLE_USER — goes to /profile
       navigate(getDashboardRoute(user.role), { replace: true })
 
-    } catch (err: any) {
-      const errorCode    = err?.response?.data?.error
-      const errorMessage = err?.response?.data?.message
-      const status       = err?.response?.status
+    } catch (err: unknown) {
+      const { status, code: errorCode, message: errorMessage, fieldErrors } =
+        getApiError(err)
 
       if (status === 409 || errorCode === 'EMAIL_ALREADY_EXISTS') {
         // Set inline error on email field — keep form open
@@ -104,11 +104,8 @@ export const useRegister = () => {
 
       if (status === 400 || errorCode === 'VALIDATION_ERROR') {
         // Backend validation error — surface on the relevant field if possible
-        const fields = err?.response?.data?.errors as
-          { field: string; message: string }[] | undefined
-
-        if (fields?.length) {
-          fields.forEach(({ field, message: msg }) => {
+        if (fieldErrors?.length) {
+          fieldErrors.forEach(({ field, message: msg }) => {
             const key = field as keyof RegisterFormValues
             form.setError(key, { type: 'manual', message: msg })
           })

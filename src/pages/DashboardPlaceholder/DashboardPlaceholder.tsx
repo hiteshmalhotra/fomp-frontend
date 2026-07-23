@@ -1,28 +1,30 @@
 import { Result, Button } from 'antd'
+import { ToolOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/auth.store'
+import { getDashboardRoute } from '@/utils/roleRedirect'
+import { usePageTitle } from '@/hooks/usePageTitle'
 
 interface Props {
   role: string
 }
 
 const DashboardPlaceholder = ({ role }: Props) => {
+  usePageTitle(role)
   const navigate = useNavigate()
-  const { clearAuth, user } = useAuthStore()
-
-  const handleLogout = () => {
-    clearAuth()
-    navigate('/login')
-  }
+  const { role: userRole } = useAuthStore()
 
   return (
     <Result
-      status="success"
-      title={`Welcome, ${user?.firstName} — ${role} Dashboard`}
-      subTitle="This section is under construction. Check back soon."
+      icon={<ToolOutlined style={{ color: '#1e40af' }} />}
+      title={`${role} — in development`}
+      subTitle="This screen has not been built yet. Check back soon."
       extra={
-        <Button danger onClick={handleLogout}>
-          Logout
+        <Button
+          type="primary"
+          onClick={() => navigate(getDashboardRoute(userRole))}
+        >
+          Go to My Dashboard
         </Button>
       }
     />

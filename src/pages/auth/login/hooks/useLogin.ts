@@ -8,6 +8,7 @@ import { login } from '@/api/auth.api'
 import { useAuthStore } from '@/store/auth.store'
 import { getUserFromToken } from '@/utils/jwt'
 import { getDashboardRoute } from '@/utils/roleRedirect'
+import { getApiError } from '@/utils/apiError'
 import type { LoginFormValues } from '@/types/auth.types'
 
 const loginSchema = z.object({
@@ -67,16 +68,12 @@ export const useLogin = () => {
       setAuth(response.token, user)
       navigate(from ?? getDashboardRoute(user.role), { replace: true })
 
-    } catch (err: any) {
-      const status       = err?.response?.status
-      const errorCode    = err?.response?.data?.error
-      const errorMessage = err?.response?.data?.message
+    } catch (err: unknown) {
+      const { status, code: errorCode, message: errorMessage, retryAfterSeconds } =
+        getApiError(err)
 
       if (status === 429 || errorCode === 'RATE_LIMIT_EXCEEDED') {
-        const retryAfter = err?.retryAfter
-          ?? err?.response?.data?.retryAfterSeconds
-          ?? 60
-        startCountdown(retryAfter)
+        startCountdown(retryAfterSeconds ?? 60)
         return
       }
 

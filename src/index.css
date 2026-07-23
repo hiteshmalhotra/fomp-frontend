@@ -7,8 +7,9 @@
 }
 
 body {
-  background-color: #0d1b2a;
-  color: #ffffff;
+  /* Light theme only — matches antd colorBgLayout. Never dark. */
+  background-color: #f8fafc;
+  color: #1e293b;
   font-family: Inter, system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26,20 +27,20 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #162230;
+  background: #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e3040;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #1a7a6e;
+  background: #94a3b8;
 }
 
-/* Remove default ant design focus outline and replace */
+/* Visible, on-brand focus ring for keyboard users */
 *:focus-visible {
-  outline: 2px solid #1a7a6e;
+  outline: 2px solid #1e40af;
   outline-offset: 2px;
 }

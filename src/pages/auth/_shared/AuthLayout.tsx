@@ -1,5 +1,6 @@
 import { Typography } from 'antd'
 import { APP_NAME, APP_VERSION } from '@/utils/constants'
+import Logo from '@/components/common/Logo'
 import styles from './auth.module.css'
 
 const { Text, Link } = Typography
@@ -17,9 +18,7 @@ const AuthLayout = ({ children, navRight }: AuthLayoutProps) => {
       {/* Top nav */}
       <nav className={styles.topNav}>
         <div className={styles.navBrand}>
-          <div className={styles.logoBox}>
-            <span className={styles.logoIcon}>🍽</span>
-          </div>
+          <Logo size={32} />
           <Text className={styles.navTitle}>{APP_NAME}</Text>
         </div>
         {navRight && (

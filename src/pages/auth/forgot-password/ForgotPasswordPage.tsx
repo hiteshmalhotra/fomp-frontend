@@ -7,6 +7,8 @@ import {
 import { Controller } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import AuthLayout from '@/pages/auth/_shared/AuthLayout'
+import Logo from '@/components/common/Logo'
+import { usePageTitle } from '@/hooks/usePageTitle'
 import { useForgotPassword } from './hooks/useForgotPassword'
 import shared from '@/pages/auth/_shared/auth.module.css'
 import styles from './ForgotPasswordPage.module.css'
@@ -14,6 +16,7 @@ import styles from './ForgotPasswordPage.module.css'
 const { Title, Text } = Typography
 
 const ForgotPasswordPage = () => {
+  usePageTitle('Forgot Password')
   const { form, loading, onSubmit } = useForgotPassword()
   const { control, formState: { errors } } = form
 
@@ -28,7 +31,7 @@ const ForgotPasswordPage = () => {
       {/* Header */}
       <div className={shared.cardHeader}>
         <div className={shared.cardLogoWrap}>
-          <span className={shared.cardLogoIcon}>🍽</span>
+          <Logo size={48} />
         </div>
         <Title level={2} className={shared.cardTitle}>
           Forgot Password?

@@ -12,12 +12,20 @@
   overflow: hidden;
 }
 
+/* Sider content wrapper must be a flex column so the user card
+   pins to the bottom (margin-top: auto) in both Sider and Drawer. */
+.sider :global(.ant-layout-sider-children) {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .logo {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 24px;
-  height: 88px;
+  padding: 20px 24px;
+  height: 80px; /* aligns with the 80px header seam */
   border-bottom: 1px solid #f1f5f9;
 }
 

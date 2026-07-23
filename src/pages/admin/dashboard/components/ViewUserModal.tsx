@@ -1,6 +1,7 @@
-import { Modal, Descriptions, Tag, Spin } from 'antd'
+import { Modal, Descriptions, Tag, Skeleton, Alert, Button } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import { adminApi } from '@/api/admin.api'
+import { formatDateTime } from '@/utils/format'
 import { ROLE_TAG_COLORS } from '../utils/dashboard.constants'
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 }
 
 const ViewUserModal = ({ userId, open, onClose }: Props) => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['admin', 'user', userId],
     queryFn: () => adminApi.getUserById(userId as number),
     enabled: !!userId && open,
@@ -19,7 +20,18 @@ const ViewUserModal = ({ userId, open, onClose }: Props) => {
   return (
     <Modal title="User Details" open={open} onCancel={onClose} footer={null}>
       {isLoading ? (
-        <Spin />
+        <Skeleton active paragraph={{ rows: 5 }} />
+      ) : isError ? (
+        <Alert
+          type="error"
+          showIcon
+          message="Could not load user details"
+          action={
+            <Button size="small" onClick={() => refetch()}>
+              Retry
+            </Button>
+          }
+        />
       ) : data ? (
         <Descriptions column={1} bordered size="small">
           <Descriptions.Item label="Full Name">{data.fullName}</Descriptions.Item>
@@ -35,10 +47,10 @@ const ViewUserModal = ({ userId, open, onClose }: Props) => {
             </Tag>
           </Descriptions.Item>
           <Descriptions.Item label="Created At">
-            {new Date(data.createdAt).toLocaleString()}
+            {formatDateTime(data.createdAt)}
           </Descriptions.Item>
           <Descriptions.Item label="Last Login">
-            {data.lastLoginAt ? new Date(data.lastLoginAt).toLocaleString() : '—'}
+            {data.lastLoginAt ? formatDateTime(data.lastLoginAt) : '—'}
           </Descriptions.Item>
         </Descriptions>
       ) : null}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Drawer, Form, Select, Button } from 'antd'
 import { useChangeRole } from '../hooks/useChangeRole'
 import { ROLE_LABELS } from '@/utils/constants'
@@ -15,13 +15,13 @@ const ROLE_OPTIONS = (
   ['ROLE_ADMIN', 'ROLE_STORE_MANAGER', 'ROLE_KITCHEN_MANAGER', 'ROLE_CANTEEN_MANAGER', 'ROLE_USER'] as const
 ).map((value) => ({ value, label: ROLE_LABELS[value] }))
 
+/**
+ * NOTE: the parent must pass key={user?.id} so this remounts per user —
+ * state initialises from the prop without a sync-from-props effect.
+ */
 const EditRoleDrawer = ({ user, open, onClose }: Props) => {
   const [role, setRole] = useState<UserRole | undefined>(user?.role)
   const mutation = useChangeRole(onClose)
-
-  useEffect(() => {
-    setRole(user?.role)
-  }, [user])
 
   const handleSubmit = () => {
     if (!user || !role) return
@@ -29,7 +29,12 @@ const EditRoleDrawer = ({ user, open, onClose }: Props) => {
   }
 
   return (
-    <Drawer title={`Edit Role — ${user?.fullName ?? ''}`} open={open} onClose={onClose} width={360}>
+    <Drawer
+      title={`Edit Role — ${user?.fullName ?? ''}`}
+      open={open}
+      onClose={onClose}
+      width={360}
+    >
       <Form layout="vertical">
         <Form.Item label="Role">
           <Select
@@ -37,6 +42,7 @@ const EditRoleDrawer = ({ user, open, onClose }: Props) => {
             onChange={setRole}
             options={ROLE_OPTIONS}
             size="large"
+            aria-label="Select role"
           />
         </Form.Item>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12 }}>

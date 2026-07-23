@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { App } from 'antd'
 import { adminApi } from '@/api/admin.api'
+import { getApiError } from '@/utils/apiError'
 
 export const useDeleteUser = () => {
   const queryClient = useQueryClient()
@@ -13,9 +14,9 @@ export const useDeleteUser = () => {
       queryClient.invalidateQueries({ queryKey: ['admin', 'users'] })
       queryClient.invalidateQueries({ queryKey: ['admin', 'user-counts'] })
     },
-    onError: (err: any) => {
+    onError: (err: unknown) => {
       message.error(
-        err?.response?.data?.message ?? 'Failed to delete user. Try again.'
+        getApiError(err).message ?? 'Failed to delete user. Try again.'
       )
     },
   })

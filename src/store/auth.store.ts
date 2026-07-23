@@ -26,10 +26,15 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'fomp-auth',
-      partialize: (state) =>
+      partialize: (state): Partial<AuthState> =>
         state.token
-          ? { token: state.token, user: state.user, role: state.role, isAuthenticated: state.isAuthenticated }
-          : ({} as any),
+          ? {
+              token: state.token,
+              user: state.user,
+              role: state.role,
+              isAuthenticated: state.isAuthenticated,
+            }
+          : {},
       onRehydrateStorage: () => (state) => {
         if (state?.token && isTokenExpired(state.token)) {
           state.clearAuth()

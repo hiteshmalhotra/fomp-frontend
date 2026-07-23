@@ -11,14 +11,14 @@ import {
   LockOutlined,
   MailOutlined,
   ArrowLeftOutlined,
-  EyeInvisibleOutlined,
-  EyeTwoTone,
   ClockCircleOutlined,
 } from '@ant-design/icons'
 import { Controller, useWatch } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import AuthLayout from '@/pages/auth/_shared/AuthLayout'
 import PasswordStrengthIndicator from '@/components/common/PasswordStrengthIndicator'
+import Logo from '@/components/common/Logo'
+import { usePageTitle } from '@/hooks/usePageTitle'
 import { useResetPassword } from './hooks/useResetPassword'
 import shared from '@/pages/auth/_shared/auth.module.css'
 import styles from './ResetPasswordPage.module.css'
@@ -28,11 +28,13 @@ const { Title, Text } = Typography
 const OTP_EXPIRY_SECONDS = 300 // 5 minutes
 
 const ResetPasswordPage = () => {
+  usePageTitle('Reset Password')
   const navigate = useNavigate()
   const { form, loading, email, hasValidState, onSubmit } = useResetPassword()
   const { control, formState: { errors }, setValue } = form
 
   const passwordValue = useWatch({ control, name: 'newPassword' })
+  const otpValue = useWatch({ control, name: 'otp' }) ?? ''
 
   // Guard — no email state means user landed directly, redirect back
   useEffect(() => {
@@ -69,8 +71,6 @@ const ResetPasswordPage = () => {
     }
   }
 
-  const otpValue = useWatch({ control, name: 'otp' }) ?? ''
-
   return (
     <AuthLayout
       navRight={
@@ -82,7 +82,7 @@ const ResetPasswordPage = () => {
       {/* Header */}
       <div className={shared.cardHeader}>
         <div className={shared.cardLogoWrap}>
-          <span className={shared.cardLogoIcon}>🍽</span>
+          <Logo size={48} />
         </div>
         <Title level={2} className={shared.cardTitle}>
           Reset Your Password
@@ -140,10 +140,12 @@ const ResetPasswordPage = () => {
                 className={styles.otpInput}
                 maxLength={1}
                 size="large"
+                inputMode="numeric"
                 value={otpValue[i] ?? ''}
                 onChange={(e) => handleOtpChange(i, e.target.value)}
                 onKeyDown={(e) => handleOtpKeyDown(i, e)}
                 status={errors.otp ? 'error' : ''}
+                aria-label={`Verification code digit ${i + 1} of 6`}
               />
             ))}
           </div>
@@ -182,15 +184,6 @@ const ResetPasswordPage = () => {
                 placeholder="Create a strong password"
                 size="large"
                 autoComplete="new-password"
-                iconRender={(visible) =>
-                  visible ? (
-                    <EyeTwoTone twoToneColor="#1A7A6E" />
-                  ) : (
-                    <EyeInvisibleOutlined
-                      style={{ color: '#5A7A84' }}
-                    />
-                  )
-                }
               />
             )}
           />
@@ -220,15 +213,6 @@ const ResetPasswordPage = () => {
                 placeholder="Re-enter your new password"
                 size="large"
                 autoComplete="new-password"
-                iconRender={(visible) =>
-                  visible ? (
-                    <EyeTwoTone twoToneColor="#1A7A6E" />
-                  ) : (
-                    <EyeInvisibleOutlined
-                      style={{ color: '#5A7A84' }}
-                    />
-                  )
-                }
               />
             )}
           />

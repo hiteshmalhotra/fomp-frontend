@@ -1,42 +1,43 @@
-import { Row, Col } from 'antd'
+import { Row, Col, Typography } from 'antd'
 import StatCardGrid from './components/StatCardGrid'
 import UserManagementTable from './components/UserManagementTable'
 import SystemHealthPanel from './components/SystemHealthPanel'
-import LoginActivityChart from './components/LoginActivityChart'
-import RecentActivitiesPanel from './components/RecentActivitiesPanel'
 import { useAdminDashboard } from './hooks/useAdminDashboard'
+import { usePageTitle } from '@/hooks/usePageTitle'
+
+const { Title } = Typography
 
 const AdminDashboardPage = () => {
-  const { statCards, users, serviceHealth, loginActivity, activities } =
-    useAdminDashboard()
+  usePageTitle('Admin Dashboard')
+  const { statCards, serviceHealth } = useAdminDashboard()
 
   return (
     <div>
-      {/* Layer 1 — Stat cards */}
-      <StatCardGrid data={statCards.data} loading={statCards.isLoading} />
+      {/* Page heading — every page needs an h1 for structure/screen readers */}
+      <Title
+        level={1}
+        style={{ fontSize: 24, fontWeight: 700, marginBottom: 24 }}
+      >
+        Admin Dashboard
+      </Title>
 
-      {/* Layer 2 — User management table */}
-      <UserManagementTable data={users.data?.content} loading={users.isLoading} />
-      
+      {/* Layer 1 — KPI cards (real user counts) */}
+      <StatCardGrid
+        data={statCards.data}
+        loading={statCards.isLoading}
+        error={statCards.isError}
+        onRetry={() => statCards.refetch()}
+      />
 
-      {/* Layer 3 — System health / chart / activities */}
-      <Row gutter={16} style={{ marginTop: 24 }}>
+      {/* Layer 2 — User management table (server-driven) */}
+      <UserManagementTable />
+
+      {/* Layer 3 — System health */}
+      <Row gutter={[16, 16]} style={{ marginTop: 24 }}>
         <Col xs={24} lg={8}>
           <SystemHealthPanel
             data={serviceHealth.data}
             loading={serviceHealth.isLoading}
-          />
-        </Col>
-        <Col xs={24} lg={8}>
-          <LoginActivityChart
-            data={loginActivity.data}
-            loading={loginActivity.isLoading}
-          />
-        </Col>
-        <Col xs={24} lg={8}>
-          <RecentActivitiesPanel
-            data={activities.data}
-            loading={activities.isLoading}
           />
         </Col>
       </Row>
