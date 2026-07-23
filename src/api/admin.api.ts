@@ -10,19 +10,24 @@ import type {
 import type { ApiSuccess } from '@/types/common.types'
 
 export const adminApi = {
-  getUsers: (params: GetUsersParams) =>
+  // signal: React Query's AbortSignal — cancels in-flight requests
+  // when the query is superseded (page/filter change) or unmounted.
+  getUsers: (params: GetUsersParams, signal?: AbortSignal) =>
     apiClient
-      .get<ApiSuccess<PaginatedData<AdminUser>>>('/api/admin/users', { params })
+      .get<ApiSuccess<PaginatedData<AdminUser>>>('/api/admin/users', {
+        params,
+        signal,
+      })
       .then((r) => r.data.data),
 
-  getUserCounts: () =>
+  getUserCounts: (signal?: AbortSignal) =>
     apiClient
-      .get<ApiSuccess<UserCounts>>('/api/admin/users/count')
+      .get<ApiSuccess<UserCounts>>('/api/admin/users/count', { signal })
       .then((r) => r.data.data),
 
-  getUserById: (id: number) =>
+  getUserById: (id: number, signal?: AbortSignal) =>
     apiClient
-      .get<ApiSuccess<AdminUser>>(`/api/admin/users/${id}`)
+      .get<ApiSuccess<AdminUser>>(`/api/admin/users/${id}`, { signal })
       .then((r) => r.data.data),
 
   createUser: (data: CreateUserRequest) =>
@@ -33,7 +38,7 @@ export const adminApi = {
   deleteUser: (id: number) =>
     apiClient
       .delete<ApiSuccess<null>>(`/api/admin/users/${id}`)
-      .then((r) => r.data),
+      .then((r) => r.data.data),
 
   toggleStatus: (id: number) =>
     apiClient

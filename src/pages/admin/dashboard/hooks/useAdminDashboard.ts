@@ -38,7 +38,7 @@ const toStatCards = (counts: UserCounts): StatCardData[] => [
 export const useAdminDashboard = () => {
   const statCards = useQuery({
     queryKey: ['admin', 'user-counts'],
-    queryFn: () => adminApi.getUserCounts(),
+    queryFn: ({ signal }) => adminApi.getUserCounts(signal),
     select: toStatCards,
   })
 

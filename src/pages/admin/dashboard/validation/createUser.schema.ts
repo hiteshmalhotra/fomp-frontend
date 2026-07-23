@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { passwordSchema } from '@/utils/passwordPolicy'
 
 export const createUserSchema = z.object({
   firstName: z
@@ -13,11 +14,7 @@ export const createUserSchema = z.object({
     .string()
     .min(1, 'Email is required')
     .email('Enter a valid email address'),
-  password: z
-    .string()
-    .min(8, 'Minimum 8 characters')
-    .regex(/[A-Z]/, 'Must contain at least one uppercase letter')
-    .regex(/[0-9]/, 'Must contain at least one number'),
+  password: passwordSchema,
   role: z.enum([
     'ROLE_ADMIN',
     'ROLE_STORE_MANAGER',

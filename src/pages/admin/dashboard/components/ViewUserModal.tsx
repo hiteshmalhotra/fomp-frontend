@@ -13,7 +13,7 @@ interface Props {
 const ViewUserModal = ({ userId, open, onClose }: Props) => {
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['admin', 'user', userId],
-    queryFn: () => adminApi.getUserById(userId as number),
+    queryFn: ({ signal }) => adminApi.getUserById(userId as number, signal),
     enabled: !!userId && open,
   })
 

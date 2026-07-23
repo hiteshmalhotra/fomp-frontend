@@ -1,11 +1,10 @@
-import { Layout, Input, Button, Dropdown, Avatar, Typography, Tag } from 'antd'
+import { Layout, Button, Dropdown, Avatar, Typography, Tag } from 'antd'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   BellOutlined,
   UserOutlined,
   LogoutOutlined,
-  SearchOutlined,
 } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/auth.store'
@@ -63,13 +62,8 @@ const AppHeader = ({ collapsed, onToggle }: Props) => {
           className={styles.collapseBtn}
           aria-label={collapsed ? 'Open navigation menu' : 'Collapse navigation menu'}
         />
-        <Input
-          placeholder="Search anything..."
-          prefix={<SearchOutlined style={{ color: '#64748b' }} aria-hidden="true" />}
-          className={styles.searchInput}
-          allowClear
-          aria-label="Search"
-        />
+        {/* Global search intentionally absent — a working command palette
+            is planned (Phase 3); a dead search box ships nothing. */}
       </div>
 
       <div className={styles.right}>

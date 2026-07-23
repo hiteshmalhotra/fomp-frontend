@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { App } from 'antd'
 import { login } from '@/api/auth.api'
@@ -9,19 +8,13 @@ import { useAuthStore } from '@/store/auth.store'
 import { getUserFromToken } from '@/utils/jwt'
 import { getDashboardRoute } from '@/utils/roleRedirect'
 import { getApiError } from '@/utils/apiError'
-import type { LoginFormValues } from '@/types/auth.types'
-
-const loginSchema = z.object({
-  email:      z.string().min(1, 'Email is required').email('Enter a valid email'),
-  password:   z.string().min(1, 'Password is required'),
-  rememberMe: z.boolean(),
-})
+import { useRateLimit } from '@/pages/auth/_shared/hooks/useRateLimit'
+import { loginSchema, type LoginFormValues } from '../validation/login.schema'
 
 export const useLogin = () => {
   const { message } = App.useApp()
-  const [loading,   setLoading]   = useState(false)
-  const [countdown, setCountdown] = useState(0)
-  const [isLimited, setIsLimited] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const { countdown, start: startCountdown, isLimited } = useRateLimit()
 
   const { setAuth } = useAuthStore()
   const navigate    = useNavigate()
@@ -33,21 +26,6 @@ export const useLogin = () => {
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '', rememberMe: false },
   })
-
-  const startCountdown = (seconds: number) => {
-    setIsLimited(true)
-    setCountdown(seconds)
-    const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval)
-          setIsLimited(false)
-          return 0
-        }
-        return prev - 1
-      })
-    }, 1000)
-  }
 
   const onSubmit = async (values: LoginFormValues) => {
     if (isLimited) return
@@ -65,7 +43,7 @@ export const useLogin = () => {
         return
       }
 
-      setAuth(response.token, user)
+      setAuth(response.token, user, values.rememberMe ?? false)
       navigate(from ?? getDashboardRoute(user.role), { replace: true })
 
     } catch (err: unknown) {

@@ -5,7 +5,7 @@
   padding: 0 32px;
   height: 80px;
   background: #ffffff !important;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
   z-index: 90;
@@ -19,30 +19,30 @@
 }
 
 .collapseBtn {
-  color: #1e293b !important;
+  color: var(--color-text) !important;
   font-size: 18px;
 }
 
 .collapseBtn:hover {
-  color: #1e40af !important;
-  background: #f1f5f9 !important;
+  color: var(--color-primary) !important;
+  background: var(--color-bg-hover) !important;
 }
 
 .searchInput {
   width: 288px;
   max-width: 40vw;
-  background: #f1f5f9 !important;
+  background: var(--color-bg-hover) !important;
   border: none !important;
   border-radius: 8px;
 }
 
 .searchInput input {
   background: transparent !important;
-  color: #1e293b !important;
+  color: var(--color-text) !important;
 }
 
 .searchInput input::placeholder {
-  color: #64748b !important;
+  color: var(--color-text-secondary) !important;
 }
 
 .right {
@@ -52,7 +52,7 @@
 }
 
 .iconBtn {
-  color: #1e293b !important;
+  color: var(--color-text) !important;
   font-size: 18px;
   width: 40px;
   height: 40px;
@@ -62,8 +62,8 @@
 }
 
 .iconBtn:hover {
-  color: #1e40af !important;
-  background: #f1f5f9 !important;
+  color: var(--color-primary) !important;
+  background: var(--color-bg-hover) !important;
   border-radius: 9999px;
 }
 
@@ -80,15 +80,15 @@
   text-align: left;
   border-radius: 8px;
   transition: background 0.2s;
-  border-left: 1px solid #e2e8f0;
+  border-left: 1px solid var(--color-border);
 }
 
 .userBlock:hover {
-  background: #f8fafc;
+  background: var(--color-bg-layout);
 }
 
 .avatar {
-  background: #1e40af !important;
+  background: var(--color-primary) !important;
 }
 
 .userMeta {
@@ -100,7 +100,7 @@
 .userName {
   font-size: 14px;
   font-weight: 600;
-  color: #1e293b !important;
+  color: var(--color-text) !important;
 }
 
 .roleTag {
@@ -108,7 +108,7 @@
   padding: 0 4px !important;
   line-height: 16px !important;
   border: none !important;
-  color: #475569 !important;
+  color: var(--color-text-secondary) !important;
   background: transparent !important;
 }
 

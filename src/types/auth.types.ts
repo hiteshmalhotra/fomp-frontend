@@ -52,14 +52,6 @@ export interface ResetPasswordRequest {
 }
 
 // ─── API response types ───────────────────────────────────────────────────────
-export interface LoginResponse {
-  token: string
-  tokenType: string
-  expiresIn: number
-  userId: number
-  role: UserRole
-}
-
 export interface AuthResponse {
   token: string
   tokenType: string
@@ -70,42 +62,5 @@ export interface AuthResponse {
   role: string             // raw role string from backend
 }
 
-// ─── Form values ──────────────────────────────────────────────────────────────
-export interface LoginFormValues {
-  email: string
-  password: string
-  rememberMe: boolean
-}
-
-export interface RegisterFormValues {
-  firstName: string
-  lastName: string
-  email: string
-  password: string
-  confirmPassword: string
-}
-
-export interface ForgotPasswordFormValues {
-  email: string
-}
-
-export interface ResetPasswordFormValues {
-  email: string
-  otp: string
-  newPassword: string
-  confirmPassword: string
-}
-
-// ─── Standard API envelope ────────────────────────────────────────────────────
-export interface ApiResponse<T> {
-  success: boolean
-  data: T
-  message: string
-}
-
-export interface ApiError {
-  success: false
-  error: string       // machine-readable code e.g. INVALID_CREDENTIALS
-  message: string     // human-readable
-  timestamp: string
-}
+// NOTE: form-value types live next to their zod schemas
+// (z.infer in each validation/*.schema.ts) — not here.

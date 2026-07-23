@@ -25,16 +25,25 @@ import styles from './ResetPasswordPage.module.css'
 
 const { Title, Text } = Typography
 
-const OTP_EXPIRY_SECONDS = 300 // 5 minutes
+const formatCountdown = (seconds: number): string =>
+  `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`
 
 const ResetPasswordPage = () => {
   usePageTitle('Reset Password')
   const navigate = useNavigate()
-  const { form, loading, email, hasValidState, onSubmit } = useResetPassword()
-  const { control, formState: { errors }, setValue } = form
+  const {
+    form,
+    loading,
+    email,
+    hasValidState,
+    expiresIn,
+    resend,
+    resending,
+    onSubmit,
+  } = useResetPassword()
+  const { control, formState: { errors } } = form
 
   const passwordValue = useWatch({ control, name: 'newPassword' })
-  const otpValue = useWatch({ control, name: 'otp' }) ?? ''
 
   // Guard — no email state means user landed directly, redirect back
   useEffect(() => {
@@ -44,32 +53,6 @@ const ResetPasswordPage = () => {
   }, [hasValidState, navigate])
 
   if (!hasValidState) return null
-
-  // Individual OTP digit handler
-  const handleOtpChange = (index: number, char: string) => {
-    const digits = (form.getValues('otp') ?? '').split('')
-    digits[index] = char.replace(/\D/g, '').slice(-1)
-    setValue('otp', digits.join(''), { shouldValidate: true })
-
-    // Auto-focus next input
-    if (char && index < 5) {
-      const next = document.getElementById(`otp-${index + 1}`)
-      next?.focus()
-    }
-  }
-
-  const handleOtpKeyDown = (
-    index: number,
-    e: React.KeyboardEvent<HTMLInputElement>
-  ) => {
-    if (e.key === 'Backspace') {
-      const digits = (form.getValues('otp') ?? '').split('')
-      if (!digits[index] && index > 0) {
-        const prev = document.getElementById(`otp-${index - 1}`)
-        prev?.focus()
-      }
-    }
-  }
 
   return (
     <AuthLayout
@@ -113,9 +96,8 @@ const ResetPasswordPage = () => {
       <Form
         layout="vertical"
         onFinish={onSubmit}
-        autoComplete="off"
       >
-        {/* OTP */}
+        {/* OTP — antd Input.OTP: paste, keyboard nav and focus handled natively */}
         <Form.Item
           label={
             <span className={shared.label}>Verification Code</span>
@@ -124,44 +106,40 @@ const ResetPasswordPage = () => {
           help={errors.otp?.message}
           style={{ marginBottom: 0 }}
         >
-          {/* Hidden field for RHF */}
           <Controller
             name="otp"
             control={control}
-            render={() => <input type="hidden" />}
-          />
-
-          {/* Visual OTP boxes */}
-          <div className={styles.otpRow}>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <Input
-                key={i}
-                id={`otp-${i}`}
-                className={styles.otpInput}
-                maxLength={1}
+            render={({ field }) => (
+              <Input.OTP
+                length={6}
                 size="large"
-                inputMode="numeric"
-                value={otpValue[i] ?? ''}
-                onChange={(e) => handleOtpChange(i, e.target.value)}
-                onKeyDown={(e) => handleOtpKeyDown(i, e)}
+                value={field.value}
+                onChange={(value) => field.onChange(value)}
+                onInput={(chars) => field.onChange(chars.join(''))}
                 status={errors.otp ? 'error' : ''}
-                aria-label={`Verification code digit ${i + 1} of 6`}
+                aria-label="6-digit verification code"
               />
-            ))}
-          </div>
+            )}
+          />
         </Form.Item>
 
-        {/* OTP footer */}
+        {/* OTP footer — live countdown + in-place resend */}
         <div className={styles.otpFooter}>
-          <span className={styles.expiryText}>
-            <ClockCircleOutlined />
-            Code expires in {Math.floor(OTP_EXPIRY_SECONDS / 60)}:
-            {String(OTP_EXPIRY_SECONDS % 60).padStart(2, '0')}
+          <span
+            className={styles.expiryText}
+            role="timer"
+            aria-live="off"
+          >
+            <ClockCircleOutlined aria-hidden="true" />
+            {expiresIn > 0
+              ? `Code expires in ${formatCountdown(expiresIn)}`
+              : 'Code expired — request a new one'}
           </span>
           <Button
             type="link"
             className={styles.resendBtn}
-            onClick={() => navigate('/forgot-password')}
+            onClick={resend}
+            loading={resending}
           >
             Didn't receive? Resend
           </Button>

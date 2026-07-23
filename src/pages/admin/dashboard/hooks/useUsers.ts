@@ -25,14 +25,17 @@ export const useUsers = () => {
 
   const query = useQuery<PaginatedData<AdminUser>>({
     queryKey: ['admin', 'users', { search, roleFilter, statusFilter, page, size }],
-    queryFn: () =>
-      adminApi.getUsers({
-        search: search || undefined,
-        role: roleFilter,
-        status: statusFilter,
-        page,
-        size,
-      }),
+    queryFn: ({ signal }) =>
+      adminApi.getUsers(
+        {
+          search: search || undefined,
+          role: roleFilter,
+          status: statusFilter,
+          page,
+          size,
+        },
+        signal
+      ),
     placeholderData: keepPreviousData,
   })
 

@@ -1,6 +1,6 @@
 .root {
   min-height: 100vh;
-  background: #f8fafc;
+  background: var(--color-bg-layout);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -20,7 +20,7 @@
 .topNav {
   height: 60px;
   background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -31,7 +31,7 @@
 }
 
 .navTitle {
-  color: #111827 !important;
+  color: var(--color-text-strong) !important;
   font-size: 15px !important;
   font-weight: 600 !important;
   letter-spacing: -0.01em;
@@ -39,20 +39,20 @@
 }
 
 .navLink {
-  color: #4b5563 !important;
+  color: var(--color-text-secondary) !important;
   font-size: 14px !important;
   transition: color 0.2s;
 }
 
 .navLink:hover {
-  color: #1e40af !important;
+  color: var(--color-primary) !important;
 }
 
 .card {
   width: 100%;
   max-width: 560px;
   background: #ffffff;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 32px 40px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08), 0 4px 3px rgba(0, 0, 0, 0.05);
@@ -67,7 +67,7 @@
 }
 
 .cardTitle {
-  color: #111827 !important;
+  color: var(--color-text-strong) !important;
   margin: 0 0 8px !important;
   font-size: 28px !important;
   font-weight: 700 !important;
@@ -75,31 +75,31 @@
 }
 
 .cardSubtitle {
-  color: #4b5563 !important;
+  color: var(--color-text-secondary) !important;
   font-size: 15px !important;
   line-height: 1.5 !important;
 }
 
 .divider {
-  border-color: #e5e7eb !important;
+  border-color: var(--color-border) !important;
   margin: 20px 0 !important;
 }
 
 .label {
-  color: #111827;
+  color: var(--color-text-strong);
   font-size: 14px;
   font-weight: 600;
 }
 
 .inputIcon {
-  color: #9ca3af;
+  color: var(--color-text-tertiary);
 }
 
 .submitBtn {
   height: 48px !important;
   font-size: 15px !important;
   font-weight: 600 !important;
-  background: #1e40af !important;
+  background: var(--color-primary) !important;
   border: none !important;
   border-radius: 8px !important;
   letter-spacing: -0.3px;
@@ -108,7 +108,7 @@
 }
 
 .submitBtn:hover {
-  background: #1d3fa5 !important;
+  background: var(--color-primary-hover) !important;
 }
 
 .submitBtn:disabled {
@@ -122,12 +122,12 @@
 }
 
 .bottomText {
-  color: #4b5563 !important;
+  color: var(--color-text-secondary) !important;
   font-size: 14px !important;
 }
 
 .bottomLink {
-  color: #1e40af !important;
+  color: var(--color-primary) !important;
   font-weight: 500 !important;
 }
 
@@ -136,19 +136,19 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  color: #4b5563 !important;
+  color: var(--color-text-secondary) !important;
   font-size: 14px !important;
   margin-top: 16px;
 }
 
 .backLink:hover {
-  color: #1e40af !important;
+  color: var(--color-primary) !important;
 }
 
 .footer {
   padding: 20px 48px;
   background: #ffffff;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--color-border);
   text-align: center;
   position: relative;
   z-index: 10;
@@ -165,22 +165,22 @@
 }
 
 .footerLink {
-  color: #4b5563 !important;
+  color: var(--color-text-secondary) !important;
   font-size: 13px !important;
 }
 
 .footerLink:hover {
-  color: #1e40af !important;
+  color: var(--color-primary) !important;
 }
 
 .footerDot {
-  color: #d1d5db;
+  color: var(--color-border-strong);
   font-size: 13px;
   user-select: none;
 }
 
 .footerCopy {
-  color: #9ca3af !important;
+  color: var(--color-text-tertiary) !important;
   font-size: 12px !important;
 }
 
@@ -219,20 +219,20 @@
 
 .input input {
   background: #ffffff !important;
-  color: #111827 !important;
+  color: var(--color-text-strong) !important;
 }
 
 :global(.ant-input) {
-  color: #111827 !important;
+  color: var(--color-text-strong) !important;
 }
 
 :global(.ant-input-affix-wrapper) {
   background-color: #ffffff !important;
-  border-color: #d1d5db !important;
+  border-color: var(--color-border-strong) !important;
 }
 
 :global(.ant-input-affix-wrapper input) {
-  color: #111827 !important;
+  color: var(--color-text-strong) !important;
   background-color: #ffffff !important;
 }
 /* ─── Responsive ────────────────────────────────────────── */

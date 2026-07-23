@@ -55,7 +55,6 @@ const LoginPage = () => {
       <Form
         layout="vertical"
         onFinish={form.handleSubmit(onSubmit)}
-        autoComplete="off"
       >
         {/* Email */}
         <Form.Item

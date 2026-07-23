@@ -5,11 +5,13 @@ import AppSidebar from './components/AppSidebar'
 import AppHeader from './components/AppHeader'
 import AppBreadcrumb from './components/AppBreadcrumb'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { useSessionExpiryWarning } from '@/hooks/useSessionExpiryWarning'
 import styles from './DashboardLayout.module.css'
 
 const { Content } = Layout
 
 const DashboardLayout = () => {
+  useSessionExpiryWarning()
   const isMobile = useMediaQuery('(max-width: 991px)')
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)

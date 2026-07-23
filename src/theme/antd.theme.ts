@@ -1,5 +1,15 @@
 import type { ThemeConfig } from 'antd'
 
+// System font stack — Inter was referenced but never loaded, so every
+// browser silently fell back anyway. System fonts render instantly
+// with zero layout shift.
+const FONT_FAMILY =
+  "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+
+/**
+ * Ant Design tokens — values mirror theme/tokens.css.
+ * Light theme only (product decision: elderly users, no dark mode).
+ */
 export const fompTheme: ThemeConfig = {
   token: {
     colorPrimary: '#1e40af',
@@ -12,18 +22,21 @@ export const fompTheme: ThemeConfig = {
     colorBgElevated: '#ffffff',
     colorBgLayout: '#f8fafc',
     colorText: '#1e293b',
-    colorTextSecondary: '#64748b',
+    colorTextSecondary: '#475569',
     colorTextTertiary: '#94a3b8',
     colorTextDisabled: '#cbd5e1',
     colorBorder: '#e2e8f0',
     colorBorderSecondary: '#f1f5f9',
-    fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+    fontFamily: FONT_FAMILY,
     fontSize: 14,
     fontSizeLG: 16,
     fontSizeXL: 20,
-    fontSizeHeading1: 24,
-    fontSizeHeading2: 18,
-    fontSizeHeading3: 14,
+    // Descending type scale — h3 must never render smaller than body text
+    fontSizeHeading1: 28,
+    fontSizeHeading2: 22,
+    fontSizeHeading3: 18,
+    fontSizeHeading4: 16,
+    fontSizeHeading5: 14,
     borderRadius: 6,
     borderRadiusLG: 8,
     controlHeight: 40,
@@ -46,7 +59,7 @@ export const fompTheme: ThemeConfig = {
     },
     Table: {
       headerBg: '#f8fafc',
-      headerColor: '#64748b',
+      headerColor: '#475569',
       rowHoverBg: '#f8fafc',
       borderColor: '#e2e8f0',
       bodySortBg: '#ffffff',
@@ -57,21 +70,21 @@ export const fompTheme: ThemeConfig = {
     },
     Input: {
       colorBgContainer: '#ffffff',
-      colorBorder: '#d1d5db',
+      colorBorder: '#cbd5e1',
       activeBorderColor: '#1e40af',
       hoverBorderColor: '#1e40af',
     },
     Select: {
       colorBgContainer: '#ffffff',
-      colorBorder: '#d1d5db',
-      optionActiveBg: '#f3f4f6',
+      colorBorder: '#cbd5e1',
+      optionActiveBg: '#f1f5f9',
       optionSelectedBg: '#eff6ff',
     },
     Button: {
       colorPrimary: '#1e40af',
       colorPrimaryHover: '#1d4ed8',
       defaultBg: '#ffffff',
-      defaultBorderColor: '#d1d5db',
+      defaultBorderColor: '#cbd5e1',
       defaultColor: '#1e293b',
     },
     Modal: {

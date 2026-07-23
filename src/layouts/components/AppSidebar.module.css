@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   background: #ffffff !important;
-  border-right: 1px solid #e2e8f0;
+  border-right: 1px solid var(--color-border);
   overflow: hidden;
 }
 
@@ -26,7 +26,7 @@
   gap: 12px;
   padding: 20px 24px;
   height: 80px; /* aligns with the 80px header seam */
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--color-bg-hover);
 }
 
 .logoIcon {
@@ -36,7 +36,7 @@
 .logoText {
   font-size: 20px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--color-text);
   letter-spacing: -0.5px;
 }
 
@@ -52,7 +52,7 @@
 }
 
 .menuWrap::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
+  background: var(--color-border);
   border-radius: 2px;
 }
 
@@ -61,7 +61,7 @@
   align-items: center;
   gap: 10px;
   padding: 12px 16px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--color-bg-hover);
   margin-top: auto;
 }
 
@@ -69,7 +69,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #1e40af;
+  background: var(--color-primary);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -88,7 +88,7 @@
 .userName {
   font-size: 13px;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--color-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -96,7 +96,7 @@
 
 .userRole {
   font-size: 11px;
-  color: #64748b;
+  color: var(--color-text-secondary);
   text-transform: capitalize;
 }
 
@@ -107,23 +107,23 @@
 
 .menuWrap :global(.ant-menu-item),
 .menuWrap :global(.ant-menu-submenu-title) {
-  color: #475569 !important;
+  color: var(--color-text-secondary) !important;
   border-radius: 6px !important;
   margin: 2px 0 !important;
 }
 
 .menuWrap :global(.ant-menu-item:hover),
 .menuWrap :global(.ant-menu-submenu-title:hover) {
-  background: #f1f5f9 !important;
-  color: #1e293b !important;
+  background: var(--color-bg-hover) !important;
+  color: var(--color-text) !important;
 }
 
 .menuWrap :global(.ant-menu-item-selected) {
-  background: #eff6ff !important;
-  color: #1e40af !important;
-  border-left: 4px solid #1e40af !important;
+  background: var(--color-primary-bg) !important;
+  color: var(--color-primary) !important;
+  border-left: 4px solid var(--color-primary) !important;
 }
 
 .menuWrap :global(.ant-menu-submenu-arrow) {
-  color: #94a3b8 !important;
+  color: var(--color-text-tertiary) !important;
 }

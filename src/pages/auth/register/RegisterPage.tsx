@@ -57,7 +57,6 @@ const RegisterPage = () => {
       <Form
         layout="vertical"
         onFinish={onSubmit}
-        autoComplete="off"
       >
         {/* First + Last name */}
         <div className={styles.nameRow}>

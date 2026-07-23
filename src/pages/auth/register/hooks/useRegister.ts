@@ -1,50 +1,20 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { useNavigate } from 'react-router-dom'
-import { message } from 'antd'
+import { App } from 'antd'
 import { register } from '@/api/auth.api'
 import { useAuthStore } from '@/store/auth.store'
 import { getUserFromToken } from '@/utils/jwt'
 import { getDashboardRoute } from '@/utils/roleRedirect'
 import { getApiError } from '@/utils/apiError'
-import type { RegisterFormValues } from '@/types/auth.types'
+import {
+  registerSchema,
+  type RegisterFormValues,
+} from '../validation/register.schema'
 
-// ─── Zod schema — matches backend constraints exactly ─────────────────────────
-// Backend: min 8 chars, at least 1 uppercase, 1 digit
-const passwordSchema = z
-  .string()
-  .min(8,  'Password must be at least 8 characters')
-  .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-  .regex(/[0-9]/, 'Password must contain at least one number')
-
-const registerSchema = z
-  .object({
-    firstName:       z.string()
-                      .min(2,  'First name must be at least 2 characters')
-                      .max(50, 'First name must be at most 50 characters')
-                      .regex(/^[a-zA-Z\s]+$/, 'First name can only contain letters'),
-    lastName:        z.string()
-                      .min(2,  'Last name must be at least 2 characters')
-                      .max(50, 'Last name must be at most 50 characters')
-                      .regex(/^[a-zA-Z\s]+$/, 'Last name can only contain letters'),
-    email:           z.string()
-                      .min(1, 'Email is required')
-                      .email('Enter a valid email address'),
-    password:        passwordSchema,
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
-  })
-  .refine(
-    (data) => data.password === data.confirmPassword,
-    {
-      message: 'Passwords do not match',
-      path:    ['confirmPassword'],
-    }
-  )
-
-// ─── Hook ─────────────────────────────────────────────────────────────────────
 export const useRegister = () => {
+  const { message } = App.useApp()
   const [loading, setLoading] = useState(false)
 
   const { setAuth } = useAuthStore()

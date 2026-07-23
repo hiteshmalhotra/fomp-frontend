@@ -4,6 +4,7 @@ import App from './App'
 import { useAuthStore } from '@/store/auth.store'
 import { isTokenExpired } from '@/utils/jwt'
 import 'antd/dist/reset.css'
+import './theme/tokens.css'
 import './index.css'
 
 // ── Startup token guard ───────────────────────────────────────────────────────

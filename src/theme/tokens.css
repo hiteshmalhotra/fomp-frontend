@@ -1,0 +1,44 @@
+/**
+ * FOMP design tokens — single source of truth for color and spacing.
+ * Light theme only (product decision: elderly users, no dark mode).
+ * antd.theme.ts mirrors these values for Ant Design's token system.
+ */
+:root {
+  /* Brand */
+  --color-primary: #1e40af;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-bg: #eff6ff;
+  --color-primary-border: #bfdbfe;
+
+  /* Semantic */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+
+  /* Surfaces (slate ramp) */
+  --color-bg-layout: #f8fafc;
+  --color-bg-hover: #f1f5f9;
+  --color-border: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+
+  /* Text (slate ramp) — secondary is ≥7:1 on white for readability */
+  --color-text: #1e293b;
+  --color-text-strong: #111827;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #94a3b8;
+
+  /* Spacing scale (4pt grid) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}

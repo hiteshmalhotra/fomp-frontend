@@ -47,7 +47,6 @@ const ForgotPasswordPage = () => {
       <Form
         layout="vertical"
         onFinish={onSubmit}
-        autoComplete="off"
       >
         {/* Email */}
         <Form.Item
