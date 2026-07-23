@@ -18,6 +18,7 @@ export const ROUTE_PATHS = {
 
   // Store
   storeDashboard: '/store/dashboard',
+  storeStock: '/store/stock',
   storeDaybook: '/store/daybook',
   storeLedger: '/store/ledger',
   storePo: '/store/po',

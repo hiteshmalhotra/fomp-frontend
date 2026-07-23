@@ -1,4 +1,4 @@
-export type StatTone = 'blue' | 'green' | 'amber'
+import type { StatTone } from '@/components/common/StatCard'
 
 export interface StatCardData {
   id: string

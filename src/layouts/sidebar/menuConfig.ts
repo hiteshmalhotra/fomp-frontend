@@ -71,10 +71,16 @@ export const MENU_CONFIG: MenuItemConfig[] = [
     roles: [ADMIN, STORE],
     children: [
       {
-      key: '/store/dashboard',
-      label: 'Store Dashboard',
-      icon: 'dashboard',
-      roles: [ADMIN, STORE],
+        key: '/store/dashboard',
+        label: 'Store Dashboard',
+        icon: 'dashboard',
+        roles: [ADMIN, STORE],
+      },
+      {
+        key: '/store/stock',
+        label: 'Stock View',
+        icon: 'inventory',
+        roles: [ADMIN, STORE],
       },
       {
         key: '/store/daybook',

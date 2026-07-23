@@ -1,6 +1,19 @@
 import { Row, Col, Skeleton, Alert, Button } from 'antd'
-import StatCard from './StatCard'
+import {
+  TeamOutlined,
+  ThunderboltOutlined,
+  DatabaseOutlined,
+  FileTextOutlined,
+} from '@ant-design/icons'
+import StatCard from '@/components/common/StatCard'
 import type { StatCardData } from '../types/dashboard.types'
+
+const ICON_MAP: Record<StatCardData['icon'], React.ReactNode> = {
+  users: <TeamOutlined />,
+  activity: <ThunderboltOutlined />,
+  server: <DatabaseOutlined />,
+  clipboard: <FileTextOutlined />,
+}
 
 interface Props {
   data?: StatCardData[]
@@ -44,7 +57,12 @@ const StatCardGrid = ({ data, loading, error, onRetry }: Props) => {
     <Row gutter={[16, 16]}>
       {data?.map((card) => (
         <Col xs={24} sm={12} lg={8} key={card.id}>
-          <StatCard data={card} />
+          <StatCard
+            label={card.label}
+            value={card.value}
+            icon={ICON_MAP[card.icon]}
+            tone={card.tone}
+          />
         </Col>
       ))}
     </Row>

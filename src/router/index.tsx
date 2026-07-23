@@ -12,6 +12,8 @@ import {
   UnauthorizedPage,
   NotFoundPage,
   AdminDashboardPage,
+  StoreDashboardPage,
+  StockViewPage,
   DashboardPlaceholder,
   PageFallback,
   RootRedirect,
@@ -96,7 +98,15 @@ const router = createBrowserRouter([
         path: ROUTE_PATHS.storeDashboard,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
-            {lazyPage(<DashboardPlaceholder role="Store" />)}
+            {lazyPage(<StoreDashboardPage />)}
+          </RoleRoute>
+        ),
+      },
+      {
+        path: ROUTE_PATHS.storeStock,
+        element: (
+          <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
+            {lazyPage(<StockViewPage />)}
           </RoleRoute>
         ),
       },

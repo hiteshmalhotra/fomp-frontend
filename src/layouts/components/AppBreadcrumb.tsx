@@ -19,6 +19,7 @@ const LABEL_MAP: Record<string, string> = {
   dashboard:'Dashboard',
   users:    'User Management',
   roles:    'Roles & Permissions',
+  stock:    'Stock View',
   daybook:  'Day Book',
   ledger:   'Ledger',
   po:       'PO Creation',
