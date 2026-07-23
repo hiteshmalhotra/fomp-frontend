@@ -11,9 +11,6 @@ node_modules
 dist
 dist-ssr
 *.local
-*.tsbuildinfo
-vite.config.js
-vite.config.d.ts
 
 # TypeScript / Vite build artifacts
 *.tsbuildinfo
