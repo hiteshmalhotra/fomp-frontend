@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom'
 import AuthLayout from '@/pages/auth/_shared/AuthLayout'
 import Logo from '@/components/common/Logo'
 import { usePageTitle } from '@/hooks/usePageTitle'
+import { fieldError } from '@/utils/formA11y'
 import { useLogin } from './hooks/useLogin'
 import shared from '@/pages/auth/_shared/auth.module.css'
 import styles from './LoginPage.module.css'
@@ -60,7 +61,7 @@ const LoginPage = () => {
         <Form.Item
           label={<span className={shared.label}>Email Address</span>}
           validateStatus={errors.email ? 'error' : ''}
-          help={errors.email?.message}
+          help={fieldError(errors.email?.message)}
           style={{ marginBottom: 20 }}
         >
           <Controller
@@ -82,7 +83,7 @@ const LoginPage = () => {
         <Form.Item
           label={<span className={shared.label}>Password</span>}
           validateStatus={errors.password ? 'error' : ''}
-          help={errors.password?.message}
+          help={fieldError(errors.password?.message)}
           style={{ marginBottom: 20 }}
         >
           <Controller

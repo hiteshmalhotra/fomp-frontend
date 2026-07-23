@@ -22,3 +22,14 @@
   background: var(--color-primary) !important;
   border-color: var(--color-primary) !important;
 }
+/* Touch devices: action buttons and switches need ≥44px targets */
+@media (pointer: coarse) {
+  .card :global(.ant-table-cell .ant-btn) {
+    width: 44px;
+    height: 44px;
+  }
+
+  .card :global(.ant-table-cell .ant-space-gap-col-small) {
+    column-gap: 12px;
+  }
+}

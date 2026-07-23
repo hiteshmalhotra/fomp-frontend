@@ -19,6 +19,7 @@ import AuthLayout from '@/pages/auth/_shared/AuthLayout'
 import PasswordStrengthIndicator from '@/components/common/PasswordStrengthIndicator'
 import Logo from '@/components/common/Logo'
 import { usePageTitle } from '@/hooks/usePageTitle'
+import { fieldError } from '@/utils/formA11y'
 import { useResetPassword } from './hooks/useResetPassword'
 import shared from '@/pages/auth/_shared/auth.module.css'
 import styles from './ResetPasswordPage.module.css'
@@ -103,7 +104,7 @@ const ResetPasswordPage = () => {
             <span className={shared.label}>Verification Code</span>
           }
           validateStatus={errors.otp ? 'error' : ''}
-          help={errors.otp?.message}
+          help={fieldError(errors.otp?.message)}
           style={{ marginBottom: 0 }}
         >
           <Controller
@@ -149,7 +150,7 @@ const ResetPasswordPage = () => {
         <Form.Item
           label={<span className={shared.label}>New Password</span>}
           validateStatus={errors.newPassword ? 'error' : ''}
-          help={errors.newPassword?.message}
+          help={fieldError(errors.newPassword?.message)}
           style={{ marginBottom: 8 }}
         >
           <Controller
@@ -178,7 +179,7 @@ const ResetPasswordPage = () => {
             <span className={shared.label}>Confirm New Password</span>
           }
           validateStatus={errors.confirmPassword ? 'error' : ''}
-          help={errors.confirmPassword?.message}
+          help={fieldError(errors.confirmPassword?.message)}
           style={{ marginBottom: 24 }}
         >
           <Controller

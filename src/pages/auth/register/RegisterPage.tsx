@@ -16,6 +16,7 @@ import AuthLayout from '@/pages/auth/_shared/AuthLayout'
 import PasswordStrengthIndicator from '@/components/common/PasswordStrengthIndicator'
 import Logo from '@/components/common/Logo'
 import { usePageTitle } from '@/hooks/usePageTitle'
+import { fieldError } from '@/utils/formA11y'
 import { useRegister } from './hooks/useRegister'
 import shared from '@/pages/auth/_shared/auth.module.css'
 import styles from './RegisterPage.module.css'
@@ -63,7 +64,7 @@ const RegisterPage = () => {
           <Form.Item
             label={<span className={shared.label}>First Name</span>}
             validateStatus={errors.firstName ? 'error' : ''}
-            help={errors.firstName?.message}
+            help={fieldError(errors.firstName?.message)}
             style={{ marginBottom: 20 }}
           >
             <Controller
@@ -83,7 +84,7 @@ const RegisterPage = () => {
           <Form.Item
             label={<span className={shared.label}>Last Name</span>}
             validateStatus={errors.lastName ? 'error' : ''}
-            help={errors.lastName?.message}
+            help={fieldError(errors.lastName?.message)}
             style={{ marginBottom: 20 }}
           >
             <Controller
@@ -105,7 +106,7 @@ const RegisterPage = () => {
         <Form.Item
           label={<span className={shared.label}>Email Address</span>}
           validateStatus={errors.email ? 'error' : ''}
-          help={errors.email?.message}
+          help={fieldError(errors.email?.message)}
           style={{ marginBottom: 20 }}
         >
           <Controller
@@ -127,7 +128,7 @@ const RegisterPage = () => {
         <Form.Item
           label={<span className={shared.label}>Password</span>}
           validateStatus={errors.password ? 'error' : ''}
-          help={errors.password?.message}
+          help={fieldError(errors.password?.message)}
           style={{ marginBottom: 8 }}
         >
           <Controller
@@ -154,7 +155,7 @@ const RegisterPage = () => {
         <Form.Item
           label={<span className={shared.label}>Confirm Password</span>}
           validateStatus={errors.confirmPassword ? 'error' : ''}
-          help={errors.confirmPassword?.message}
+          help={fieldError(errors.confirmPassword?.message)}
           style={{ marginBottom: 24 }}
         >
           <Controller

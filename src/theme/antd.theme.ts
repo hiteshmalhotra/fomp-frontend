@@ -1,4 +1,5 @@
 import type { ThemeConfig } from 'antd'
+import type { TextScale } from '@/store/preferences.store'
 
 // System font stack — Inter was referenced but never loaded, so every
 // browser silently fell back anyway. System fonts render instantly
@@ -95,4 +96,28 @@ export const fompTheme: ThemeConfig = {
       colorBgElevated: '#ffffff',
     },
   },
+}
+
+/**
+ * Returns the theme for the user's text-scale preference.
+ * "large" bumps body text to 16px and controls to 44px — an
+ * accessibility option surfaced in the header account menu.
+ */
+export const getFompTheme = (scale: TextScale): ThemeConfig => {
+  if (scale !== 'large') return fompTheme
+  return {
+    ...fompTheme,
+    token: {
+      ...fompTheme.token,
+      fontSize: 16,
+      fontSizeLG: 18,
+      fontSizeXL: 22,
+      fontSizeHeading1: 32,
+      fontSizeHeading2: 25,
+      fontSizeHeading3: 20,
+      fontSizeHeading4: 18,
+      fontSizeHeading5: 16,
+      controlHeight: 44,
+    },
+  }
 }

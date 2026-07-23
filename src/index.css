@@ -45,3 +45,34 @@ body {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
+
+/* Skip link — hidden until keyboard-focused */
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: 16px;
+  z-index: 1000;
+  padding: 10px 16px;
+  background: var(--color-primary);
+  color: #ffffff;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.15s ease-out;
+}
+
+.skip-link:focus-visible {
+  top: 16px;
+}
+
+/* Respect reduced-motion — collapse all animation to imperceptible */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

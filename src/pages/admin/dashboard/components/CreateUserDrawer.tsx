@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons'
 import { Controller } from 'react-hook-form'
 import PasswordStrengthIndicator from '@/components/common/PasswordStrengthIndicator'
+import { fieldError } from '@/utils/formA11y'
 import { useCreateUser } from '../hooks/useCreateUser'
 import { ROLE_LABELS } from '@/utils/constants'
 import styles from './CreateUserDrawer.module.css'
@@ -39,7 +40,7 @@ const CreateUserDrawer = ({ open, onClose }: Props) => {
           <Form.Item
             label={<span className={styles.label}>First Name</span>}
             validateStatus={errors.firstName ? 'error' : ''}
-            help={errors.firstName?.message}
+            help={fieldError(errors.firstName?.message)}
           >
             <Controller
               name="firstName"
@@ -53,7 +54,7 @@ const CreateUserDrawer = ({ open, onClose }: Props) => {
           <Form.Item
             label={<span className={styles.label}>Last Name</span>}
             validateStatus={errors.lastName ? 'error' : ''}
-            help={errors.lastName?.message}
+            help={fieldError(errors.lastName?.message)}
           >
             <Controller
               name="lastName"
@@ -68,7 +69,7 @@ const CreateUserDrawer = ({ open, onClose }: Props) => {
         <Form.Item
           label={<span className={styles.label}>Email Address</span>}
           validateStatus={errors.email ? 'error' : ''}
-          help={errors.email?.message}
+          help={fieldError(errors.email?.message)}
         >
           <Controller
             name="email"
@@ -82,7 +83,7 @@ const CreateUserDrawer = ({ open, onClose }: Props) => {
         <Form.Item
           label={<span className={styles.label}>Role</span>}
           validateStatus={errors.role ? 'error' : ''}
-          help={errors.role?.message}
+          help={fieldError(errors.role?.message)}
         >
           <Controller
             name="role"
@@ -96,7 +97,7 @@ const CreateUserDrawer = ({ open, onClose }: Props) => {
         <Form.Item
           label={<span className={styles.label}>Password</span>}
           validateStatus={errors.password ? 'error' : ''}
-          help={errors.password?.message}
+          help={fieldError(errors.password?.message)}
           style={{ marginBottom: 8 }}
         >
           <Controller
