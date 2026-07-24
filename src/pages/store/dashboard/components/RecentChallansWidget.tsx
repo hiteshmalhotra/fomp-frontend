@@ -25,7 +25,7 @@ const RecentChallansWidget = ({ loading, error, onRetry, data }: Props) => (
     onRetry={onRetry}
     empty={!data || data.length === 0}
     emptyText="No transfer challans yet"
-    viewAllTo={ROUTE_PATHS.storeChallanUnpacked}
+    viewAllTo={ROUTE_PATHS.storeChallan}
   >
     <List
       size="small"

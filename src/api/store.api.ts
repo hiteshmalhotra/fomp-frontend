@@ -1,6 +1,12 @@
 import apiClient from './client'
 import type { ApiSuccess, PaginatedData } from '@/types/common.types'
 import type {
+  ChallanApprovalPayload,
+  ChallanCreateRequest,
+  ChallanDispatchPayload,
+  ChallanPackPayload,
+  ChallanReceiptPayload,
+  ChallanSearchParams,
   DayBook,
   ItemCategory,
   ItemLookup,
@@ -17,6 +23,7 @@ import type {
   StoreLocation,
   Supplier,
   TransferChallan,
+  TransferChallanDetail,
 } from '@/types/store.types'
 
 export const storeApi = {
@@ -121,11 +128,107 @@ export const storeApi = {
       })
       .then((r) => r.data.data),
 
+  // ── Transfer Challans (STORE-009/010/011) ─────────────────────────────
+
+  searchChallans: (params: ChallanSearchParams, signal?: AbortSignal) =>
+    apiClient
+      .get<ApiSuccess<PaginatedData<TransferChallan>>>('/api/store/challans', {
+        params,
+        signal,
+      })
+      .then((r) => r.data.data),
+
+  getChallan: (id: number, signal?: AbortSignal) =>
+    apiClient
+      .get<ApiSuccess<TransferChallanDetail>>(`/api/store/challans/${id}`, {
+        signal,
+      })
+      .then((r) => r.data.data),
+
+  createChallan: (data: ChallanCreateRequest) =>
+    apiClient
+      .post<ApiSuccess<TransferChallanDetail>>('/api/store/challans', data)
+      .then((r) => r.data.data),
+
+  // ── Challan workflow transitions ──────────────────────────────────────
+
+  submitChallan: (id: number) =>
+    apiClient
+      .put<ApiSuccess<TransferChallanDetail>>(`/api/store/challans/${id}/submit`)
+      .then((r) => r.data.data),
+
+  approveChallan: (id: number, approvals: ChallanApprovalPayload[]) =>
+    apiClient
+      .put<ApiSuccess<TransferChallanDetail>>(
+        `/api/store/challans/${id}/approve`,
+        approvals
+      )
+      .then((r) => r.data.data),
+
+  packChallan: (id: number, data: ChallanPackPayload) =>
+    apiClient
+      .put<ApiSuccess<TransferChallanDetail>>(
+        `/api/store/challans/${id}/pack`,
+        data
+      )
+      .then((r) => r.data.data),
+
+  dispatchChallan: (id: number, data: ChallanDispatchPayload) =>
+    apiClient
+      .put<ApiSuccess<TransferChallanDetail>>(
+        `/api/store/challans/${id}/dispatch`,
+        data
+      )
+      .then((r) => r.data.data),
+
+  acknowledgeChallan: (id: number) =>
+    apiClient
+      .put<ApiSuccess<TransferChallanDetail>>(
+        `/api/store/challans/${id}/acknowledge`
+      )
+      .then((r) => r.data.data),
+
+  receiveChallan: (id: number, data: ChallanReceiptPayload) =>
+    apiClient
+      .put<ApiSuccess<TransferChallanDetail>>(
+        `/api/store/challans/${id}/receive`,
+        data
+      )
+      .then((r) => r.data.data),
+
+  verifyChallan: (id: number, remarks?: string) =>
+    apiClient
+      .put<ApiSuccess<TransferChallanDetail>>(
+        `/api/store/challans/${id}/verify`,
+        null,
+        { params: remarks ? { remarks } : undefined }
+      )
+      .then((r) => r.data.data),
+
+  cancelChallan: (id: number, reason: string) =>
+    apiClient
+      .put<ApiSuccess<TransferChallanDetail>>(
+        `/api/store/challans/${id}/cancel`,
+        null,
+        { params: { reason } }
+      )
+      .then((r) => r.data.data),
+
   // ── Suppliers ─────────────────────────────────────────────────────────
 
   getSuppliers: (signal?: AbortSignal) =>
     apiClient
       .get<ApiSuccess<Supplier[]>>('/api/store/suppliers', { signal })
+      .then((r) => r.data.data),
+
+  // Full stock list at a location — used for available-qty lookup in
+  // Create Challan (STORE-010).
+  getStockByLocation: (locationId: number, signal?: AbortSignal) =>
+    apiClient
+      .get<ApiSuccess<StockRow[]>>(
+        `/api/store/stock/location/${locationId}`,
+        { signal }
+      )
       .then((r) => r.data.data),
 
   // ── Reference data ────────────────────────────────────────────────────

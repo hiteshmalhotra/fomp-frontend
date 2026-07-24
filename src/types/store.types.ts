@@ -146,11 +146,13 @@ export interface PurchaseOrderDetail {
   lineItems: POLineItem[]
 }
 
-// ChallanResponse (list-view fields used in S1)
+// ChallanResponse (list-view fields)
 export interface TransferChallan {
   id: number
   challanNumber: string
+  fromLocationId: number
   fromLocationName: string
+  toLocationId: number
   toLocationName: string
   status: ChallanStatus
   challanDate: string
@@ -158,6 +160,58 @@ export interface TransferChallan {
   totalValue: number | null
   hasShortage: boolean
   createdAt: string
+}
+
+// ChallanLineItemResponse
+export interface ChallanLineItem {
+  id: number
+  itemId: number
+  itemName: string
+  itemCode: string
+  unitName: string
+  requestedQuantity: number
+  approvedQuantity: number | null
+  packedQuantity: number | null
+  dispatchedQuantity: number | null
+  receivedQuantity: number | null
+  shortageQuantity: number | null
+  shortageReason: string | null
+  averagePrice: number | null
+  lineValue: number | null
+  hasShortage: boolean
+  fullyReceived: boolean
+  packingRemarks: string | null
+  receiptRemarks: string | null
+}
+
+// ChallanResponse (full detail — STORE-011)
+export interface TransferChallanDetail {
+  id: number
+  challanNumber: string
+  fromLocationId: number
+  fromLocationName: string
+  fromLocationCode: string
+  toLocationId: number
+  toLocationName: string
+  toLocationCode: string
+  status: ChallanStatus
+  challanDate: string
+  expectedDeliveryDate: string | null
+  dispatchedDate: string | null
+  receivedDate: string | null
+  verifiedDate: string | null
+  totalValue: number | null
+  hasShortage: boolean
+  shortageRemarks: string | null
+  vehicleNumber: string | null
+  driverName: string | null
+  createdBy: string
+  approvedBy: string | null
+  dispatchedBy: string | null
+  receivedBy: string | null
+  verifiedBy: string | null
+  createdAt: string
+  lineItems: ChallanLineItem[]
 }
 
 // ─── Derived stock status (STORE-012 BR-001/002/004) ─────────────────────────
@@ -265,6 +319,63 @@ export interface POSearchParams {
   toDate?: string
   page?: number
   size?: number
+}
+
+// ─── Challan (STORE-009/010/011) ─────────────────────────────────────────────
+export type ChallanDirection = 'OUTGOING' | 'INCOMING'
+export type ChallanStatusFilter = ChallanStatus | 'ALL'
+
+export interface ChallanSearchParams {
+  status?: ChallanStatus
+  fromLocationId?: number
+  toLocationId?: number
+  fromDate?: string
+  toDate?: string
+  page?: number
+  size?: number
+}
+
+// ChallanRequest / ChallanLineItemRequest
+export interface ChallanLineItemPayload {
+  itemId: number
+  requestedQuantity: number
+  remarks?: string
+}
+
+export interface ChallanCreateRequest {
+  fromLocationId: number
+  toLocationId: number
+  expectedDeliveryDate?: string
+  requestRemarks?: string
+  lineItems: ChallanLineItemPayload[]
+}
+
+// Transition payloads
+export interface ChallanApprovalPayload {
+  lineItemId: number
+  approvedQuantity: number
+  remarks?: string
+}
+
+export interface ChallanPackPayload {
+  packItems: { lineItemId: number; packedQuantity: number; remarks?: string }[]
+  packingRemarks?: string
+  numberOfPackages?: number
+}
+
+export interface ChallanDispatchPayload {
+  vehicleNumber?: string
+  driverName?: string
+  dispatchRemarks?: string
+}
+
+export interface ChallanReceiptPayload {
+  receiptItems: {
+    lineItemId: number
+    receivedQuantity: number
+    remarks?: string
+  }[]
+  receiptRemarks?: string
 }
 
 // PORequest / POLineItemRequest

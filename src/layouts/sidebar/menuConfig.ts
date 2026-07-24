@@ -102,31 +102,9 @@ export const MENU_CONFIG: MenuItemConfig[] = [
       },
       {
         key: '/store/challan',
-        label: 'Challan',
+        label: 'Transfer Challans',
         icon: 'challan',
         roles: [ADMIN, STORE],
-        children: [
-          {
-            key: '/store/challan/received',
-            label: 'Received',
-            icon: 'received',
-            roles: [ADMIN, STORE],
-            children: [
-              {
-                key: '/store/challan/received/packed',
-                label: 'Packed',
-                icon: 'packed',
-                roles: [ADMIN, STORE],
-              },
-              {
-                key: '/store/challan/received/unpacked',
-                label: 'Unpacked',
-                icon: 'unpacked',
-                roles: [ADMIN, STORE],
-              },
-            ],
-          },
-        ],
       },
     ],
   },

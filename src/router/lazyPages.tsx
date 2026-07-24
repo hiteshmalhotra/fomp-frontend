@@ -27,6 +27,13 @@ export const CreatePurchaseOrderPage = lazy(
 export const PurchaseOrderDetailPage = lazy(
   () => import('@/pages/store/po/PurchaseOrderDetailPage')
 )
+export const ChallanListPage   = lazy(() => import('@/pages/store/challan'))
+export const CreateChallanPage = lazy(
+  () => import('@/pages/store/challan/CreateChallanPage')
+)
+export const ChallanDetailPage = lazy(
+  () => import('@/pages/store/challan/ChallanDetailPage')
+)
 export const DashboardPlaceholder = lazy(() => import('@/pages/DashboardPlaceholder'))
 
 export const PageFallback = () => (

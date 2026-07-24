@@ -19,6 +19,9 @@ import {
   PurchaseOrderListPage,
   CreatePurchaseOrderPage,
   PurchaseOrderDetailPage,
+  ChallanListPage,
+  CreateChallanPage,
+  ChallanDetailPage,
   DashboardPlaceholder,
   PageFallback,
   RootRedirect,
@@ -156,18 +159,26 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: ROUTE_PATHS.storeChallanPacked,
+        path: ROUTE_PATHS.storeChallan,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
-            {lazyPage(<DashboardPlaceholder role="Packed Challans" />)}
+            {lazyPage(<ChallanListPage />)}
           </RoleRoute>
         ),
       },
       {
-        path: ROUTE_PATHS.storeChallanUnpacked,
+        path: ROUTE_PATHS.storeChallanCreate,
         element: (
           <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
-            {lazyPage(<DashboardPlaceholder role="Unpacked Challans" />)}
+            {lazyPage(<CreateChallanPage />)}
+          </RoleRoute>
+        ),
+      },
+      {
+        path: '/store/challan/:id',
+        element: (
+          <RoleRoute allowedRoles={['ROLE_ADMIN', 'ROLE_STORE_MANAGER']}>
+            {lazyPage(<ChallanDetailPage />)}
           </RoleRoute>
         ),
       },

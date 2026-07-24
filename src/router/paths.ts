@@ -24,8 +24,9 @@ export const ROUTE_PATHS = {
   storePo: '/store/po',
   storePoCreate: '/store/po/create',
   // detail is dynamic: /store/po/:id — see storePoDetail()
-  storeChallanPacked: '/store/challan/received/packed',
-  storeChallanUnpacked: '/store/challan/received/unpacked',
+  storeChallan: '/store/challan',
+  storeChallanCreate: '/store/challan/create',
+  // detail is dynamic: /store/challan/:id — see storeChallanDetail()
 
   // Kitchen
   kitchenDashboard: '/kitchen/dashboard',
@@ -53,3 +54,7 @@ export const isRoutablePath = (path: string): boolean => ALL_PATHS.has(path)
 /** Dynamic PO detail route (STORE-008). */
 export const storePoDetail = (id: number | string): string =>
   `/store/po/${id}`
+
+/** Dynamic challan detail route (STORE-011). */
+export const storeChallanDetail = (id: number | string): string =>
+  `/store/challan/${id}`
